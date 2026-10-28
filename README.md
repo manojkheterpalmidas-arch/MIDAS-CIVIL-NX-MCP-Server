@@ -10,7 +10,7 @@ Ask your assistant to set up lanes, stages or a grillage, and it:
 3. shows you a preview,
 4. and only after you agree, writes it to CIVIL NX with the same code the plugin runs.
 
-It can also read results (concurrent forces, stress profiles, construction stages, any result table), run assessments (CS 455, RC slabs, culverts, SLS stresses) and export reports, IFC and DXF. Send it a sketch or photo of a cross-section and it builds the section with Section Designer.
+It can also read results (concurrent forces, stress profiles, construction stages, any result table), split a load combination into the load cases that make it up, run assessments (CS 455, RC slabs, culverts, SLS stresses) and export reports, IFC and DXF. Send it a sketch or photo of a cross-section and it builds the section with Section Designer.
 
 The server is hosted by MIDAS IT Europe. **There is nothing to install.** You point your assistant at one address:
 
@@ -22,14 +22,14 @@ It is listed in the official [MCP Registry](https://registry.modelcontextprotoco
 
 ## Capabilities
 
-89 tools from 25 plugins. See [TOOLS.md](TOOLS.md) for the full list, or [midasiteurope.com/llm](https://midasiteurope.com/llm#tools) for every input.
+91 tools from 26 plugins. See [TOOLS.md](TOOLS.md) for the full list, or [midasiteurope.com/llm](https://midasiteurope.com/llm#tools) for every input.
 
 | Area | Plugins |
 |---|---|
 | Geometry and model set-up | Skew Grillage Geometry Generator, Bridge Reshaper, Node Generator, Section Designer, Beam to Plate, Point to Patch Convertor, Advanced DXF Importer, Auto Structure Groups |
 | Loads and combinations | CS 454 and Eurocode Moving Load Wizards, CS 454 and Eurocode Load Combinations, Eurocode Wind Loads, Bridge Thermal Loads |
 | Construction stages | Construction Stage Wizard, Construction Stage Reporter |
-| Results and reporting | Concurrent Force Reporter, Stress Profile Generator, Bulk Tabular Result Exporter, Model Report, Model to IFC |
+| Results and reporting | Concurrent Force Reporter, Load Combination Contribution Analyzer, Stress Profile Generator, Bulk Tabular Result Exporter, Model Report, Model to IFC |
 | Design and assessment | CS 455 RC + PSC Assessment, RC Slab & Shell Assessment, 2D Culvert, PD 6694-1 Integral Abutment |
 
 ## Requirements
@@ -110,6 +110,8 @@ Any HTTP client can call `POST https://midasiteurope.com/api/v1/tools/<tool>` wi
 Try asking:
 
 > *Check what's in my open CIVIL NX model, then set up CS 454 lanes and moving loads for it. Show me the preview before you write anything.*
+
+> *Which load cases make up the worst hogging moment in ULS envelope along the main girder? Give me the breakdown at the critical section.*
 
 > *Here's a sketch of the deck section. Build it with Section Designer and show me the drawing to check before writing it.*
 

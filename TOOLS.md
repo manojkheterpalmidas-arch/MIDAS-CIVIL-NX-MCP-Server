@@ -1,6 +1,6 @@
 # Tools
 
-89 tools from 25 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
+91 tools from 26 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
 
 - **Calculation**: needs no model and no account.
 - **Read-only**: reads the open model, never changes it.
@@ -52,9 +52,9 @@
 
 | Tool | What it does | Effect | Runs |
 |---|---|---|---|
-| `concurrent_forces_setup` | Concurrent Force Reporter, step 1. | Read-only | Background |
-| `concurrent_forces` | Concurrent Force Reporter, step 2. | Read-only | Background |
-| `concurrent_forces_probe` | Concurrent Force Reporter diagnostics. | Read-only | Background |
+| `concurrent_forces_setup` | Concurrent Force Reporter, step 1. Reads the open CIVIL NX model the way the plugin does when it connects and lists what a concurrent-forces run can use: every load case and combination (all ten LCOM… | Read-only | Background |
+| `concurrent_forces` | Concurrent Force Reporter, step 2. For a set of items (elements, nodes, links), finds the load state that makes ONE key effect extreme at ONE key item (max, min or absolute max over the selected load… | Read-only | Background |
+| `concurrent_forces_probe` | Concurrent Force Reporter diagnostics. For each result source the plugin reads (beam, truss, plate, general link, elastic link, node reaction, node displacement), asks this CIVIL NX build with one… | Read-only | Background |
 
 ## CS 454 - Moving Load Wizard
 
@@ -79,7 +79,7 @@
 |---|---|---|---|
 | `cs455_describe_section` | Start here when the user shares a reinforcement drawing, photo or schedule. | Read-only |  |
 | `cs455_assess` | CS 455 ULS assessment of reinforced concrete beam sections with the plugin's own engine: reads the concurrent force rows (BEAMFORCE / BEAMFORCEVBM for envelopes and moving loads, kN·m; a moving-load… | Read-only | Background |
-| `cs455_export_calc_sheet` | The report. | Read-only | Background |
+| `cs455_export_calc_sheet` | The report. Assesses one element end exactly as cs455_assess and writes the plugin's reference-format calculation sheet (.xlsx: A4 pages, title block, geometry, materials, reinforcement, section… | Read-only | Background |
 
 ## Construction Stage Reporter
 
@@ -139,6 +139,13 @@
 |---|---|---|---|
 | `skew_grillage` | Generates a bridge deck (beam grillage or plate mesh) with the Skew Grillage Geometry Generator plugin's own engine: skew, unequal girders, plan curvature, multi-span, crossfall and vertical profile… | Changes model | Background when applied |
 | `skew_grillage_undo` | Removes the deck a skew_grillage run wrote (its elements, nodes, new structure groups and any default properties nothing else uses). | Changes model | Background when applied |
+
+## Load Combination Contribution Analyzer
+
+| Tool | What it does | Effect | Runs |
+|---|---|---|---|
+| `combination_tree` | Load Combination Contribution Analyzer, step 1. Without name: lists the model's General-tab load combinations (LCOM-GEN) with type (ADD, ENVELOPE, ABS, SRSS), constituent count, whether it is a… | Read-only | Background |
+| `combination_contributions` | Load Combination Contribution Analyzer, step 2. Splits one or more load combinations' results at a set of items into the load cases that produced them: for every item, output point (beam I/J and… | Read-only | Background |
 
 ## Model Report
 

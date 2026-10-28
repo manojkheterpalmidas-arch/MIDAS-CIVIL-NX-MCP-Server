@@ -25,8 +25,10 @@ const cell = (s) => String(s || "").replace(/\|/g, "\\|").replace(/</g, "&lt;").
 const MAX = 200;
 const firstSentence = (s) => {
   const text = cell(s);
-  const m = text.match(/^(.+?(?<!\be\.g|\bi\.e|\betc)[.!?])\s+(?=[A-Z])/);
-  const first = m ? m[1] : text;
+  // a lead-in as short as "Concurrent forces, step 1." says nothing: take the next sentence too
+  const ends = [...text.matchAll(/(?<!\be\.g|\bi\.e|\betc)[.!?](?=\s+[A-Z])/g)].map((m) => m.index + 1);
+  const end = ends.find((i) => i >= 60);
+  const first = end ? text.slice(0, end) : text;
   if (first.length <= MAX) return first;
   const cut = first.slice(0, MAX);
   return cut.slice(0, cut.lastIndexOf(" ")).replace(/[,;:(\s]+$/, "") + "…";
