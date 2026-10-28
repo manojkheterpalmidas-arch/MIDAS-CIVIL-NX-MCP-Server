@@ -55,7 +55,15 @@ Tokens don't expire. If your MAPI key changes, use *Change key* on the same page
 
 ## Connect your AI client
 
-### claude.ai and Claude Desktop
+### Claude Desktop: one-click extension
+
+1. Download **[midas-civil-nx.mcpb](https://github.com/manojkheterpalmidas-arch/MIDAS-CIVIL-NX-MCP-Server/releases/latest/download/midas-civil-nx.mcpb)**.
+2. Double-click it, or drag it into Claude Desktop (*Settings > Extensions*). Then select **Install**.
+3. Paste your **personal token** when asked. Claude Desktop keeps it in your system's secure store.
+
+The extension is a small bridge that forwards Claude's requests to `https://midasiteurope.com/mcp`, where the tools run. Its source is in [`desktop/`](desktop). It works on any Claude plan that has Claude Desktop, with no custom-connector setting needed.
+
+### claude.ai (web), or Claude Desktop by URL
 
 *Settings > Connectors > Add custom connector*, then paste your **connector URL**. Custom connectors depend on your Claude plan.
 
@@ -136,6 +144,7 @@ This repository holds documentation and client configuration only. The server ru
 |---|---|
 | [`TOOLS.md`](TOOLS.md) | The tool list, generated from the live catalogue |
 | [`.vscode/mcp.json`](.vscode/mcp.json) | Ready-made VS Code / GitHub Copilot configuration |
+| [`desktop/`](desktop) | The Claude Desktop extension: manifest and the bridge to the hosted server (no tool code). Packed with `npx @anthropic-ai/mcpb pack desktop` and attached to each release |
 | [`server.json`](server.json) | The server's MCP Registry entry |
 | [`scripts/make-tools-md.mjs`](scripts/make-tools-md.mjs) | Regenerates `TOOLS.md` |
 

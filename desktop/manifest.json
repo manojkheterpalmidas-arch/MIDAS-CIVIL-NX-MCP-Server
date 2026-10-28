@@ -1,0 +1,40 @@
+{
+  "manifest_version": "0.3",
+  "name": "midas-civil-nx",
+  "display_name": "MIDAS CIVIL NX tools",
+  "version": "1.0.0",
+  "description": "Build, check and report on MIDAS CIVIL NX bridge models with the MIDAS IT Europe plugins, and look things up in the MIDAS manuals.",
+  "long_description": "Connects Claude Desktop to the MIDAS CIVIL NX tools hosted at midasiteurope.com: the engines of the MIDAS IT Europe plugins (grillages, lanes and moving loads, combinations, wind, thermal, construction stages, CS 455 / slab / culvert / PD 6694 checks, results and reports), building any model through the MIDAS API with preview, approval and undo, running the analysis, and searching the CIVIL NX, GEN NX and MIDAS API manuals. Every change is previewed first and written only after you agree. You need MIDAS CIVIL NX open with your model and a free MIDAS IT Europe account: make your personal token at midasiteurope.com/llm and paste it when Claude Desktop asks. The tools run on midasiteurope.com; this extension only carries your requests there.",
+  "author": { "name": "MIDAS IT Europe", "email": "eusupport@midasit.com", "url": "https://midasiteurope.com" },
+  "homepage": "https://midasiteurope.com/llm",
+  "documentation": "https://github.com/manojkheterpalmidas-arch/MIDAS-CIVIL-NX-MCP-Server",
+  "support": "https://midasiteurope.com/llm",
+  "icon": "icon.png",
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.js"],
+      "env": {
+        "MIDAS_CNX_TOKEN": "${user_config.token}"
+      }
+    }
+  },
+  "tools_generated": true,
+  "user_config": {
+    "token": {
+      "type": "string",
+      "title": "Personal token",
+      "description": "Your cnx_… token from midasiteurope.com/llm (free account). Needed for the tools that read or change your model; calculations and the MIDAS manuals work without it.",
+      "sensitive": true,
+      "required": false
+    }
+  },
+  "keywords": ["midas", "civil nx", "bridge", "structural engineering", "finite element", "eurocode", "cs 454"],
+  "license": "Proprietary",
+  "compatibility": {
+    "platforms": ["win32", "darwin"],
+    "runtimes": { "node": ">=18.0.0" }
+  }
+}
