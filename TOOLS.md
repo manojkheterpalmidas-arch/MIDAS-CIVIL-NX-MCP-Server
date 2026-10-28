@@ -1,6 +1,6 @@
 # Tools
 
-97 tools from 26 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
+98 tools from 26 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
 
 - **Calculation**: needs no model and no account.
 - **Read-only**: reads the open model, never changes it.
@@ -13,6 +13,7 @@
 |---|---|---|---|
 | `midas_docs_search` | Searches the MIDAS help centre (support.midasuser.com), live: the CIVIL NX and GEN NX online help (every dialog: what it does, where it is in the menus, each input), the MIDAS API (MAPI) JSON manual… | Calculation |  |
 | `midas_docs_read` | Reads one MIDAS help-centre article in full, as Markdown: headings, notes, input tables, and for the MIDAS API manual the URI, methods, JSON schema and JSON examples as code blocks. | Calculation |  |
+| `midas_library` | Structured reference for writing a CIVIL NX model through the API (civil_write_tables): the material standard names CIVIL NX knows (46 concrete standards), material fields per type, grades known to… | Calculation |  |
 | `civil_status` | Checks the MAPI connection to CIVIL NX and summarises the open model: units, moving load code, row counts per table, structure/boundary/load group names, static load cases, stages, general… | Read-only |  |
 | `civil_read_table` | Reads one MIDAS database table (GET /db/&lt;TABLE&gt;) from the open model, e.g. NODE, ELEM, SECT, GRUP, STLD, STAG, LLAN, MVLDBS, LCOM-GEN. | Read-only |  |
 | `job_status` | Status, progress and (when finished) the result of a tool call that returned a jobId. | No model |  |

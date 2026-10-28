@@ -24,11 +24,11 @@ It is listed in the official [MCP Registry](https://registry.modelcontextprotoco
 
 ## Capabilities
 
-97 tools: the engines of 26 plugins, plus model-level tools. See [TOOLS.md](TOOLS.md) for the full list, or [midasiteurope.com/llm](https://midasiteurope.com/llm#tools) for every input.
+98 tools: the engines of 26 plugins, plus model-level tools. See [TOOLS.md](TOOLS.md) for the full list, or [midasiteurope.com/llm](https://midasiteurope.com/llm#tools) for every input.
 
 | Area | Plugins and tools |
 |---|---|
-| Model and documentation | Model status and any table read; **write any model table** (with undo); run the analysis; save the model; **search and read the MIDAS manuals** |
+| Model and documentation | Model status and any table read; **write any model table** (with undo); run the analysis; save the model; **search and read the MIDAS manuals**; **MIDAS library**: material standards, section shapes, element and support rows (from [midas-civil-python](https://github.com/MIDASIT-Co-Ltd/midas-civil-python)) |
 | Geometry and model set-up | Skew Grillage Geometry Generator, Bridge Reshaper, Node Generator, Section Designer, Beam to Plate, Point to Patch Convertor, Advanced DXF Importer, Auto Structure Groups |
 | Loads and combinations | CS 454 and Eurocode Moving Load Wizards, CS 454 and Eurocode Load Combinations, Eurocode Wind Loads, Bridge Thermal Loads |
 | Construction stages | Construction Stage Wizard, Construction Stage Reporter |
@@ -147,6 +147,10 @@ This repository holds documentation and client configuration only. The server ru
 | [`desktop/`](desktop) | The Claude Desktop extension: manifest and the bridge to the hosted server (no tool code). Packed with `npx @anthropic-ai/mcpb pack desktop` and attached to each release |
 | [`server.json`](server.json) | The server's MCP Registry entry |
 | [`scripts/make-tools-md.mjs`](scripts/make-tools-md.mjs) | Regenerates `TOOLS.md` |
+
+## Related: scripting CIVIL NX in Python
+
+For repeatable scripts outside a chat, MIDAS IT's open-source **[midas-civil-python](https://github.com/MIDASIT-Co-Ltd/midas-civil-python)** library (`pip install midas-civil`, MIT) builds models, runs analyses and extracts results from Python. It talks to the same MIDAS API as this server. The server's `midas_library` tool uses its material standards, code options and examples as reference data.
 
 ## Support
 
