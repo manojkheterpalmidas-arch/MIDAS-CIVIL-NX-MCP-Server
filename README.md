@@ -28,7 +28,7 @@ It is listed in the official [MCP Registry](https://registry.modelcontextprotoco
 
 | Area | Plugins and tools |
 |---|---|
-| Model and documentation | Model status and any table read; **write any model table** (with undo); run the analysis; save the model; **search and read the MIDAS manuals**; **MIDAS library**: material standards, section shapes, element and support rows (from [midas-civil-python](https://github.com/MIDASIT-Co-Ltd/midas-civil-python)) |
+| Model and documentation | Model status and any table read; **write any model table** (with undo); run the analysis; save the model; **search and read the MIDAS manuals**; **MIDAS library**: material standards, section shapes, load case types, moving-load codes and standard vehicles, boundary, tendon, temperature and dynamic options (from [midas-civil-python](https://github.com/MIDASIT-Co-Ltd/midas-civil-python)) |
 | Geometry and model set-up | Skew Grillage Geometry Generator, Bridge Reshaper, Node Generator, Section Designer, Beam to Plate, Point to Patch Convertor, Advanced DXF Importer, Auto Structure Groups |
 | Loads and combinations | CS 454 and Eurocode Moving Load Wizards, CS 454 and Eurocode Load Combinations, Eurocode Wind Loads, Bridge Thermal Loads |
 | Construction stages | Construction Stage Wizard, Construction Stage Reporter |
