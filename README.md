@@ -12,6 +12,8 @@ Ask your assistant to set up lanes, stages or a grillage, and it:
 
 It can also read results (concurrent forces, stress profiles, construction stages, any result table), split a load combination into the load cases that make it up, run assessments (CS 455, RC slabs, culverts, SLS stresses) and export reports, IFC and DXF. Send it a sketch or photo of a cross-section and it builds the section with Section Designer.
 
+Beyond the plugins, it can **build a model from scratch**: it looks up each table in the MIDAS API manual, writes nodes, elements, materials, sections, supports, loads and combinations through the same preview → approve → apply → undo steps, saves the model and runs the analysis. It also **answers how-to questions from the official MIDAS manuals** (CIVIL NX and GEN NX online help, MIDAS API manual, FAQ) and links the article it used.
+
 The server is hosted by MIDAS IT Europe. **There is nothing to install.** You point your assistant at one address:
 
 ```
@@ -22,10 +24,11 @@ It is listed in the official [MCP Registry](https://registry.modelcontextprotoco
 
 ## Capabilities
 
-91 tools from 26 plugins. See [TOOLS.md](TOOLS.md) for the full list, or [midasiteurope.com/llm](https://midasiteurope.com/llm#tools) for every input.
+97 tools: the engines of 26 plugins, plus model-level tools. See [TOOLS.md](TOOLS.md) for the full list, or [midasiteurope.com/llm](https://midasiteurope.com/llm#tools) for every input.
 
-| Area | Plugins |
+| Area | Plugins and tools |
 |---|---|
+| Model and documentation | Model status and any table read; **write any model table** (with undo); run the analysis; save the model; **search and read the MIDAS manuals** |
 | Geometry and model set-up | Skew Grillage Geometry Generator, Bridge Reshaper, Node Generator, Section Designer, Beam to Plate, Point to Patch Convertor, Advanced DXF Importer, Auto Structure Groups |
 | Loads and combinations | CS 454 and Eurocode Moving Load Wizards, CS 454 and Eurocode Load Combinations, Eurocode Wind Loads, Bridge Thermal Loads |
 | Construction stages | Construction Stage Wizard, Construction Stage Reporter |
@@ -112,6 +115,8 @@ Try asking:
 > *Check what's in my open CIVIL NX model, then set up CS 454 lanes and moving loads for it. Show me the preview before you write anything.*
 
 > *Which load cases make up the worst hogging moment in ULS envelope along the main girder? Give me the breakdown at the critical section.*
+
+> *Build me a two-span continuous concrete beam, 20 m + 20 m, 1.2 m × 0.6 m, pinned supports, self weight plus a 10 kN/m UDL. Show me the preview, then analyse it and give me the support reactions.*
 
 > *Here's a sketch of the deck section. Build it with Section Designer and show me the drawing to check before writing it.*
 

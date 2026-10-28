@@ -1,6 +1,6 @@
 # Tools
 
-91 tools from 26 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
+97 tools from 26 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
 
 - **Calculation**: needs no model and no account.
 - **Read-only**: reads the open model, never changes it.
@@ -11,9 +11,15 @@
 
 | Tool | What it does | Effect | Runs |
 |---|---|---|---|
+| `midas_docs_search` | Searches the MIDAS help centre (support.midasuser.com), live: the CIVIL NX and GEN NX online help (every dialog: what it does, where it is in the menus, each input), the MIDAS API (MAPI) JSON manual… | Calculation |  |
+| `midas_docs_read` | Reads one MIDAS help-centre article in full, as Markdown: headings, notes, input tables, and for the MIDAS API manual the URI, methods, JSON schema and JSON examples as code blocks. | Calculation |  |
 | `civil_status` | Checks the MAPI connection to CIVIL NX and summarises the open model: units, moving load code, row counts per table, structure/boundary/load group names, static load cases, stages, general… | Read-only |  |
 | `civil_read_table` | Reads one MIDAS database table (GET /db/&lt;TABLE&gt;) from the open model, e.g. NODE, ELEM, SECT, GRUP, STLD, STAG, LLAN, MVLDBS, LCOM-GEN. | Read-only |  |
 | `job_status` | Status, progress and (when finished) the result of a tool call that returned a jobId. | No model |  |
+| `civil_write_tables` | Creates, changes or deletes rows in any CIVIL NX database table through the MIDAS API — nodes, elements, materials, sections, thicknesses, supports, links, load cases, loads, groups, stages… | Changes model | Background when applied |
+| `civil_write_tables_undo` | Puts every row a civil_write_tables run touched back as it was before the run: deletes rows it created, restores rows it changed or deleted (a merging table's row is replaced whole). | Changes model | Background when applied |
+| `civil_run_analysis` | Runs the CIVIL NX analysis of the open model (doc/ANAL), so results can be read with the result tools straight after building or changing a model. | Changes model | Background when applied |
+| `civil_save_model` | Saves the open CIVIL NX model: over its own file (doc/SAVE), or as a new .mcb file when path is given (doc/SAVEAS; a file of that name is overwritten). | Changes model | Background when applied |
 
 ## Auto Structure Groups
 
