@@ -1,0 +1,12 @@
+{
+  "inputs": [
+    { "type": "promptString", "id": "civil-nx-token", "description": "MIDAS IT Europe personal token", "password": true }
+  ],
+  "servers": {
+    "civilNx": {
+      "type": "http",
+      "url": "https://midasiteurope.com/mcp",
+      "headers": { "Authorization": "Bearer ${input:civil-nx-token}" }
+    }
+  }
+}

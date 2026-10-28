@@ -1,0 +1,43 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.midasiteurope/civil-nx",
+  "title": "MIDAS CIVIL NX tools (MIDAS IT Europe)",
+  "description": "Build, check and report on MIDAS CIVIL NX bridge models through the MIDAS IT Europe plugins.",
+  "version": "0.7.0",
+  "websiteUrl": "https://midasiteurope.com/llm",
+  "icons": [
+    {
+      "src": "https://midasiteurope.com/app-icon-192.png",
+      "mimeType": "image/png",
+      "sizes": ["192x192"]
+    },
+    {
+      "src": "https://midasiteurope.com/app-icon-512.png",
+      "mimeType": "image/png",
+      "sizes": ["512x512"]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://midasiteurope.com/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Personal token (cnx_...) from midasiteurope.com/llm. Needed to read or change a CIVIL NX model; calculation tools work without it.",
+          "value": "Bearer {token}",
+          "isRequired": false,
+          "isSecret": true,
+          "variables": {
+            "token": {
+              "description": "Your cnx_ token from midasiteurope.com/llm (free account).",
+              "placeholder": "cnx_...",
+              "isRequired": false,
+              "isSecret": true
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
