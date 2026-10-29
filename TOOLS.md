@@ -1,6 +1,6 @@
 # Tools
 
-98 tools from 26 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
+99 tools from 26 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
 
 - **Calculation**: needs no model and no account.
 - **Read-only**: reads the open model, never changes it.
@@ -17,6 +17,7 @@
 | `civil_status` | Checks the MAPI connection to CIVIL NX and summarises the open model: units, moving load code, row counts per table, structure/boundary/load group names, static load cases, stages, general… | Read-only |  |
 | `civil_read_table` | Reads one MIDAS database table (GET /db/&lt;TABLE&gt;) from the open model, e.g. NODE, ELEM, SECT, GRUP, STLD, STAG, LLAN, MVLDBS, LCOM-GEN. | Read-only |  |
 | `job_status` | Status, progress and (when finished) the result of a tool call that returned a jobId. | No model |  |
+| `civil_loads_supports` | The fast way to add supports, nodal loads, beam UDLs and plate pressures: describe WHERE (structure group, id ranges, a line, a box, a coordinate, or the extreme nodes of a group) and WHAT, and the… | Changes model | Background when applied |
 | `civil_write_tables` | Creates, changes or deletes rows in any CIVIL NX database table through the MIDAS API — nodes, elements, materials, sections, thicknesses, supports, links, load cases, loads, groups, stages… | Changes model | Background when applied |
 | `civil_write_tables_undo` | Puts every row a civil_write_tables run touched back as it was before the run: deletes rows it created, restores rows it changed or deleted (a merging table's row is replaced whole). | Changes model | Background when applied |
 | `civil_run_analysis` | Runs the CIVIL NX analysis of the open model (doc/ANAL), so results can be read with the result tools straight after building or changing a model. | Changes model | Background when applied |
