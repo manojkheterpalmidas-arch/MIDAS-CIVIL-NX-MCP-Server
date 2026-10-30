@@ -111,6 +111,21 @@ Import [`https://midasiteurope.com/openapi.json`](https://midasiteurope.com/open
 
 Any HTTP client can call `POST https://midasiteurope.com/api/v1/tools/<tool>` with `Authorization: Bearer <token>`. Long calls return a `jobId` to poll at `/api/v1/jobs/<jobId>`.
 
+### Lazy mode: fewer tokens in every chat
+
+Most assistants read every tool's description at the start of every conversation: roughly 80,000 tokens for all the tools. Add `/lazy` to the address and the assistant sees three small tools instead:
+
+```
+https://midasiteurope.com/mcp/lazy
+https://midasiteurope.com/mcp/c/<your token>/lazy
+```
+
+- `find_tools` looks up the tools a task needs, with their full descriptions and inputs.
+- `run_tool` runs one of them.
+- `job_status` follows background jobs.
+
+The tools behind them, their previews, go-aheads and undo are exactly the same. Use it in claude.ai, ChatGPT, Copilot and other assistants that load every tool up front. Claude Code already looks tools up only when it needs them, so it does not need lazy mode. The trade-off: one extra lookup for each new kind of task, and your assistant asks permission for `run_tool` as a whole rather than tool by tool.
+
 ## How it works
 
 1. **Read.** The assistant calls `civil_status` and the read tools to see your model.
