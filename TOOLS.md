@@ -44,8 +44,8 @@
 
 | Tool | What it does | Effect | Runs |
 |---|---|---|---|
-| `bridge_reshape_read` | Reads the open model the way the Bridge Reshaper plugin (1.0.5) does: the deck (straight, in straight pieces kinked at half-joints or piers, or curved; beam girders, girders meshed as plates, or a… | Read-only | Background |
-| `bridge_reshape` | Changes the geometry of the bridge in the open model in place, with the Bridge Reshaper plugin's own engine (1.0.5): new span lengths (the deck is stretched - each span keeps its element count), a… | Changes model | Background |
+| `bridge_reshape_read` | Reads the open model the way the Bridge Reshaper plugin (1.0.6) does: the deck (straight, in straight pieces kinked at half-joints or piers, or curved; beam girders, girders meshed as plates, or a… | Read-only | Background |
+| `bridge_reshape` | Changes the geometry of the bridge in the open model in place, with the Bridge Reshaper plugin's own engine (1.0.6): new span lengths (the deck is stretched - each span keeps its element count), a… | Changes model | Background |
 | `bridge_reshape_undo` | Undoes a bridge_reshape run from the ledger with the plugin's own Undo: every row the run overwrote is written back and every row it created is removed, so the model returns exactly. | Changes model | Background when applied |
 
 ## Bridge Thermal Loads
@@ -71,7 +71,7 @@
 | Tool | What it does | Effect | Runs |
 |---|---|---|---|
 | `cs454_lane_layout` | Lays out CS 454 notional lanes, remaining areas, footways and strips on a carriageway cross-section with the CS454 - Moving Load Wizard's own layout engine (Table 5.9a, cl 5.10, ALL model 1… | Calculation |  |
-| `cs454_moving_loads_read` | Reads the open model as the CS454 - Moving Load Wizard does: the lanes, vehicles, cases and groups already there (and which this tool wrote), the suggested lane kind, the deck it reads (reference… | Read-only | Background |
+| `cs454_moving_loads_read` | Read-only: changes nothing in the model. Call it before cs454_moving_loads to see what the CS454 - Moving Load Wizard would do. | Read-only | Background |
 | `cs454_moving_loads` | CS 454 assessment live loading with the CS454 - Moving Load Wizard plugin's own engine: notional lanes laid out on the carriageway (line lanes on a grillage, surface lanes on a plate deck), ALL model… | Changes model | Background when applied |
 | `cs454_moving_loads_undo` | Removes the lanes, vehicles, cases, envelopes and groups a cs454_moving_loads run wrote, using the plugin's own cleanup (cases and envelopes first, bottom up, at most 100 per call): anything edited… | Changes model | Background when applied |
 
@@ -130,7 +130,7 @@
 | Tool | What it does | Effect | Runs |
 |---|---|---|---|
 | `ec_lane_layout` | Lays out EN 1991-2 lanes on a carriageway cross-section with the Eurocode - Moving Load Wizard's own layout engine: Table 4.1 notional lanes and the remaining area, footways, the LM2 axle lane, the… | Calculation |  |
-| `ec_moving_loads_read` | Reads the open model as the Eurocode - Moving Load Wizard does: the lanes, vehicles, cases and groups already there (and which this tool wrote), the suggested lane kind, the deck it reads (reference… | Read-only | Background |
+| `ec_moving_loads_read` | Read-only: changes nothing in the model. Call it before ec_moving_loads to see what the Eurocode - Moving Load Wizard would do. | Read-only | Background |
 | `ec_moving_loads` | EN 1991-2 traffic loading with the Eurocode - Moving Load Wizard plugin's own engine: lanes laid out on the carriageway (line lanes on a grillage, surface lanes on a plate deck) for the chosen load… | Changes model | Background when applied |
 | `ec_moving_loads_undo` | Removes the lanes, vehicles, cases and groups an ec_moving_loads run wrote, using the plugin's own cleanup (cases first, bottom up, at most 100 per call): anything edited since the run, or still used… | Changes model | Background when applied |
 
@@ -187,7 +187,7 @@
 | `pd6694_route_a` | PD 6694-1 integral abutment earth pressures by the limit-equilibrium route (K*, cl.9.4.3/9.4.4) with the PD 6694-1 Integral Abutment plugin's own engine: thermal movement and design displacement, the… | Calculation |  |
 | `pd6694_route_a_write` | Writes the four PD 6694 limit-equilibrium states as plate pressures on one or two abutment wall groups, exactly as the plugin's Write button: same-model guard, the PD6694 EP load cases and groups… | Changes model | Background when applied |
 | `pd6694_route_a_remove` | Removes the four PD6694 EP limit-equilibrium load cases with their pressures, load groups and stage activations (the plugin's Remove). | Changes model | Background when applied |
-| `pd6694_ssi_plan` | Plans the PD 6694-1 Annex A soil-structure interaction run on the open model with the plugin's planner: spring nodes on each wall, piles, the stiffness range, and every blocker. | Read-only |  |
+| `pd6694_ssi_plan` | Read-only: changes nothing in the model. Call it before pd6694_ssi_run, with the same inputs, to check that the PD 6694-1 Annex A soil-structure interaction run can go ahead — it uses the plugin's… | Read-only |  |
 | `pd6694_ssi_run` | Runs the PD 6694-1 Annex A iteration with the plugin's own runner: Winkler springs on the walls (multi-linear), repeated analyses until the wall displacements settle, then the two design pressure… | Changes model | Background when applied |
 | `pd6694_ssi_remove` | Removes everything an SSI run left (design pressure cases, spring groups, analysis cases) and restores the model's own springs from the run's backup (the plugin's Remove SSI). | Changes model | Background when applied |
 
@@ -204,7 +204,7 @@
 
 | Tool | What it does | Effect | Runs |
 |---|---|---|---|
-| `slab_capacities_from_bars` | Bar arrangement → everything the RC Slab & Shell Assessment routes need, with the plugin's own core: per layer area, d, x, z, moment capacity (kNm/m) and force (kN/m); the Denton/Wood-Armer capacity… | Calculation |  |
+| `slab_capacities_from_bars` | Calculation only: needs no model and changes nothing. Turns a slab's bar arrangement into the capacities the RC Slab & Shell Assessment routes need, with the plugin's own core. | Calculation |  |
 | `slab_survey` | Reads the open model's plates (ELEM/NODE), structure groups, static cases and combinations (all LCOM tables) the way the RC Slab & Shell Assessment plugin does: orientation groups by plate normal… | Read-only |  |
 | `slab_assess` | Reads plate forces (PLATEFORCEUL, element local axes) for one orientation group and the given load cases, rotates them to the reinforcement direction and assesses every position with the plugin's own… | Read-only | Background |
 | `slab_explain_location` | The working behind one element's utilisation: reads that element's plate forces, picks its governing position and case (or the one given) and re-runs it through the plugin's explain_location — every… | Read-only |  |
