@@ -1,6 +1,6 @@
 # Tools
 
-101 tools from 26 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
+104 tools from 27 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
 
 - **Calculation**: needs no model and no account.
 - **Read-only**: reads the open model, never changes it.
@@ -134,14 +134,14 @@
 | `ec_moving_loads` | EN 1991-2 traffic loading with the Eurocode - Moving Load Wizard plugin's own engine: lanes laid out on the carriageway (line lanes on a grillage, surface lanes on a plate deck) for the chosen load… | Changes model | Background when applied |
 | `ec_moving_loads_undo` | Removes the lanes, vehicles, cases and groups an ec_moving_loads run wrote, using the plugin's own cleanup (cases first, bottom up, at most 100 per call): anything edited since the run, or still used… | Changes model | Background when applied |
 
-## Eurocode Wind Loads
+## Wind Load Calculator
 
 | Tool | What it does | Effect | Runs |
 |---|---|---|---|
-| `ec_wind_bridge` | Calculates EN 1991-1-4 §8 wind actions on a bridge deck with the Eurocode Wind Loads plugin's own engine: v_b, q_p(z_e), c_sc_d, d_tot, the transverse (x), longitudinal (y) and vertical (z, at e =… | Calculation |  |
-| `ec_wind_read_deck` | Reads the open model the way the Eurocode Wind Loads plugin does: finds the deck (or measures the elements / group given), and reports b, d, L, the soffit height, the span axis, whether the deck is… | Read-only |  |
-| `ec_wind_apply` | Calculates §8 wind on the deck and writes it with the Eurocode Wind Loads plugin's adapter: one EC1W_ load case per global direction, then beam loads (beam deck) or a pressure + fascia nodal loads… | Changes model | Background when applied |
-| `ec_wind_remove` | Removes what the Eurocode Wind Loads plugin writes: every EC1W_ load case, its load group, and their beam/pressure/nodal loads — whether this tool or the plugin window wrote them. | Changes model | Background when applied |
+| `ec_wind_bridge` | Calculates wind on a bridge deck with the Wind Load Calculator plugin's own engine (formerly Eurocode Wind Loads). code EN: EN 1991-1-4 §8 — v_b, q_p(z_e), c_sc_d, d_tot, the transverse (x)… | Calculation |  |
+| `ec_wind_read_deck` | Reads the open model the way the Wind Load Calculator plugin does: finds the deck (or measures the elements / group given), and reports b, d, L, the soffit height, the span axis, whether the deck is… | Read-only |  |
+| `ec_wind_apply` | Calculates wind on the deck (EN 1991-1-4 §8, or CS 454 Appendix D with code: CS454) and writes it with the Wind Load Calculator plugin's adapter: one load case per global direction (EC1W_ for EN… | Changes model | Background when applied |
+| `ec_wind_remove` | Removes what the Wind Load Calculator plugin writes: every EC1W_ and C454W_ load case, its load group, and their beam/pressure/nodal loads — whether this tool or the plugin window wrote them. | Changes model | Background when applied |
 
 ## Skew Grillage Geometry Generator
 
@@ -242,3 +242,11 @@
 | `stress_element_loads` | Reads what the Stress Profile Generator can show for chosen beam elements: each element's section (type, outline verified, composite parts, tapered), material, length, the load cases / combinations /… | Read-only |  |
 | `stress_profile` | The Stress Profile Generator's profile for ONE beam element: from CIVIL NX's beam forces and the true section outline it calculates σx (or σx from N / My / Mz, τ from Vz / Vy, von Mises, principal… | Read-only |  |
 | `sls_stress_check` | The Stress Profile Generator's SLS report check (EN 1992-2 §7.2 concrete, EN 1993-2 §7.3 structural steel; normal stress σx at the fibres) over many elements × positions × combinations — or, with… | Read-only | Background |
+
+## Tendon Designer
+
+| Tool | What it does | Effect | Runs |
+|---|---|---|---|
+| `tendon_design` | Designs the post- or pre-tensioning tendons of a concrete girder in the open model to EN 1992-1-1 with the Tendon Designer plugin's own engine, or reads the model's own tendons and checks them (mode… | Read-only | Background |
+| `tendon_write` | Writes a tendon_design result into the open model with the Tendon Designer plugin's writer: the strand material and tendon property (or one already in the model), every tendon profile (TDNA) and its… | Changes model | Background |
+| `tendon_write_undo` | Undoes the latest tendon_write (or the run named), newest first: removes the tendons, prestress, property, material, load case and load groups it created, puts back the model tendons it removed, and… | Changes model | Background when applied |
