@@ -1,6 +1,6 @@
 # Tools
 
-104 tools from 27 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
+107 tools from 28 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
 
 - **Calculation**: needs no model and no account.
 - **Read-only**: reads the open model, never changes it.
@@ -250,3 +250,11 @@
 | `tendon_design` | Designs the post- or pre-tensioning tendons of a concrete girder in the open model to EN 1992-1-1 with the Tendon Designer plugin's own engine, or reads the model's own tendons and checks them (mode… | Read-only | Background |
 | `tendon_write` | Writes a tendon_design result into the open model with the Tendon Designer plugin's writer: the strand material and tendon property (or one already in the model), every tendon profile (TDNA) and its… | Changes model | Background |
 | `tendon_write_undo` | Undoes the latest tendon_write (or the run named), newest first: removes the tendons, prestress, property, material, load case and load groups it created, puts back the model tendons it removed, and… | Changes model | Background when applied |
+
+## Eurocode Section Checker
+
+| Tool | What it does | Effect | Runs |
+|---|---|---|---|
+| `ec2_describe_section` | Start here for an EN 1992 section check. Reads one beam section of the open model through the shared MIDAS section library (any CIVIL NX section family; composite deck slabs as separate regions… | Read-only |  |
+| `ec2_section_check` | EN 1992-1-1 / EN 1992-2 check of concrete beam, column, pier and pile sections with the Eurocode Section Checker plugin's own engine. | Read-only | Background |
+| `ec2_export_calc_sheet` | The report. Runs the check exactly as ec2_section_check and writes the plugin's calculation sheet (.xlsx in the CS 455 reference format, EN 1992 content, live formulas): one sheet per section -… | Read-only | Background |

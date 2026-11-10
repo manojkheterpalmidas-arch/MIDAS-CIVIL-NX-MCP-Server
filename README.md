@@ -26,7 +26,7 @@ It is listed in the official [MCP Registry](https://registry.modelcontextprotoco
 
 ## Capabilities
 
-104 tools: the engines of 27 plugins, plus model-level tools. See [TOOLS.md](TOOLS.md) for the full list, or [midasiteurope.com/llm](https://midasiteurope.com/llm#tools) for every input.
+107 tools: the engines of 28 plugins, plus model-level tools. See [TOOLS.md](TOOLS.md) for the full list, or [midasiteurope.com/llm](https://midasiteurope.com/llm#tools) for every input.
 
 | Area | Plugins and tools |
 |---|---|
