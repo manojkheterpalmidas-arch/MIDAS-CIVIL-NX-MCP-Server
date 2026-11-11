@@ -12,7 +12,7 @@ Ask your assistant to set up lanes, stages or a grillage, and it:
 3. shows you a preview,
 4. and only after you agree, writes it to CIVIL NX with the same code the plugin runs.
 
-It can also read results (concurrent forces, stress profiles, construction stages, any result table), split a load combination into the load cases that make it up, run assessments (CS 455, RC slabs, culverts, SLS stresses) and export reports, IFC and DXF. Send it a sketch or photo of a cross-section and it builds the section with Section Designer.
+It can also read results (concurrent forces, stress profiles, construction stages, any result table), split a load combination into the load cases that make it up, run assessments (CS 455, Eurocode section checks, RC slabs, culverts, SLS stresses) and export reports, IFC and DXF. It can **design prestressing tendons** for a concrete girder to EN 1992-1-1 with Tendon Designer, or read the tendons already in the model and check them, then write the tendons, their prestress and their construction stages into CIVIL NX. Send it a sketch or photo of a cross-section and it builds the section with Section Designer.
 
 Beyond the plugins, it can **build a model from scratch**: it looks up each table in the MIDAS API manual, writes nodes, elements, materials, sections, supports, loads and combinations through the same preview → approve → apply → undo steps, saves the model and runs the analysis. It also **answers how-to questions from the official MIDAS manuals** (CIVIL NX and GEN NX online help, MIDAS API manual, FAQ) and links the article it used.
 
@@ -32,10 +32,11 @@ It is listed in the official [MCP Registry](https://registry.modelcontextprotoco
 |---|---|
 | Model and documentation | Model status and any table read; **write any model table** (with undo); run the analysis; save the model; **search and read the MIDAS manuals**; **MIDAS library**: material standards, section shapes, load case types, moving-load codes and standard vehicles, boundary, tendon, temperature and dynamic options (from [midas-civil-python](https://github.com/MIDASIT-Co-Ltd/midas-civil-python)) |
 | Geometry and model set-up | Skew Grillage Geometry Generator, Bridge Reshaper, Node Generator, Section Designer, Beam to Plate, Point to Patch Convertor, Advanced DXF Importer, Auto Structure Groups |
-| Loads and combinations | CS 454 and Eurocode Moving Load Wizards, CS 454 and Eurocode Load Combinations, Eurocode Wind Loads, Bridge Thermal Loads |
+| Loads and combinations | CS 454 and Eurocode Moving Load Wizards, CS 454 and Eurocode Load Combinations, Wind Load Calculator, Bridge Thermal Loads |
+| Prestressing | **Tendon Designer**: post- and pre-tensioned tendons to EN 1992-1-1 (new layouts, or the model's own tendons read in and checked), composite girders stage by stage, standard precast beam strand patterns with debonding, external tendons, written to the model with their prestress and stages |
 | Construction stages | Construction Stage Wizard, Construction Stage Reporter |
 | Results and reporting | Concurrent Force Reporter, Load Combination Contribution Analyzer, Stress Profile Generator, Bulk Tabular Result Exporter, Model Report, Model to IFC |
-| Design and assessment | CS 455 RC + PSC Assessment, RC Slab & Shell Assessment, 2D Culvert, PD 6694-1 Integral Abutment |
+| Design and assessment | CS 455 RC + PSC Assessment, Eurocode Section Checker, RC Slab & Shell Assessment, 2D Culvert, PD 6694-1 Integral Abutment |
 
 ## Requirements
 
@@ -142,6 +143,8 @@ Try asking:
 > *Which load cases make up the worst hogging moment in ULS envelope along the main girder? Give me the breakdown at the critical section.*
 
 > *Build me a two-span continuous concrete beam, 20 m + 20 m, 1.2 m × 0.6 m, pinned supports, self weight plus a 10 kN/m UDL. Show me the preview, then analyse it and give me the support reactions.*
+
+> *Design the post-tensioning for the girder in group "Deck" to EN 1992-1-1. Go through any failed checks with me, then show me the preview before you write the tendons.*
 
 > *Here's a sketch of the deck section. Build it with Section Designer and show me the drawing to check before writing it.*
 
