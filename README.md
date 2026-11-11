@@ -3,6 +3,7 @@
 # MIDAS CIVIL NX MCP Server
 
 [![M8ven Score](https://m8ven.ai/badge/mcp/manojkheterpalmidas-arch-midas-civil-nx-mcp-server-x3kcgj?v=b2be90e9162462c106e0d5ccb5bee3b6)](https://m8ven.ai/mcp/manojkheterpalmidas-arch-midas-civil-nx-mcp-server-x3kcgj?s=readme)
+[![MCP Badge](https://lobehub.com/badge/mcp/manojkheterpalmidas-arch-midas-civil-nx-mcp-server)](https://lobehub.com/mcp/manojkheterpalmidas-arch-midas-civil-nx-mcp-server)
 
 Let Claude, ChatGPT, GitHub Copilot or any MCP client build, check and report on a **MIDAS CIVIL NX** model, using the same engines that run the [MIDAS IT Europe plugins](https://midasiteurope.com/plugins).
 
