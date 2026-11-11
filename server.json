@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "com.midasiteurope/civil-nx",
   "title": "MIDAS CIVIL NX tools (MIDAS IT Europe)",
-  "description": "Build, check and report on MIDAS CIVIL NX bridge models through the MIDAS IT Europe plugins.",
-  "version": "0.7.0",
+  "description": "Build, check and report on MIDAS CIVIL NX bridge models and design tendons, with MIDAS IT plugins.",
+  "version": "0.7.1",
   "websiteUrl": "https://midasiteurope.com/llm",
   "icons": [
     {
