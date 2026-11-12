@@ -1,6 +1,6 @@
 # Tools
 
-107 tools from 28 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
+108 tools from 28 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
 
 - **Calculation**: needs no model and no account.
 - **Read-only**: reads the open model, never changes it.
@@ -161,6 +161,7 @@
 
 | Tool | What it does | Effect | Runs |
 |---|---|---|---|
+| `model_health_check` | One read-only check of the open CIVIL NX model for anything that is likely wrong, grouped into areas with a red/amber/green status each. | Read-only | Background |
 | `model_qc_check` | Runs the Model Report plugin's fourteen quality checks on the open CIVIL NX model: duplicate (coincident) nodes, orphan nodes, zero-length and duplicate elements, elements without material/section… | Read-only | Background |
 | `model_report_images` | Lists the CIVIL NX pictures the Model Report can put in this model's report, with their keys: FE model views (iso, plan, front, side), the applied loads of each static load case, the figures saved in… | Read-only | Background |
 | `model_report_export` | Builds the Model Report plugin's 'Model report' for the open CIVIL NX model — cover, contents, materials, sections (with drawings), supports and springs, load cases, combinations and loads… | Read-only | Background |
@@ -225,7 +226,7 @@
 | `section_properties` | Computes the full CIVIL NX property set of a section with Section Designer's solver: exact area, centroid, second moments, extreme fibres and perimeters from the outlines, and torsion J and shear… | Calculation |  |
 | `section_write` | Writes a section into the open CIVIL NX model exactly as Section Designer's Write button does: VALUE/GEN, PSC/VALU or COMPOSITE-GEN with its computed properties (CIVIL keeps them as sent), in the… | Changes model | Background when applied |
 | `section_write_undo` | Reverses a section_write run from the ledger: deletes the section it created (refused while elements use it), or writes back the section it replaced, then reads back. | Changes model | Background when applied |
-| `section_read` | Without id: lists the model's sections (id, name, type, whether Section Designer can edit it) and the next free id. | Read-only |  |
+| `section_read` | Without id: lists the model's sections (id, name, type, whether Section Designer stores it as outlines) and the next free id. | Read-only |  |
 
 ## Construction Stage Wizard
 

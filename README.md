@@ -29,7 +29,7 @@ It is listed in the official [MCP Registry](https://registry.modelcontextprotoco
 
 ## Capabilities
 
-107 tools: the engines of 28 plugins, plus model-level tools. See [TOOLS.md](TOOLS.md) for the full list, or [midasiteurope.com/llm](https://midasiteurope.com/llm#tools) for every input.
+108 tools: the engines of 28 plugins, plus model-level tools. See [TOOLS.md](TOOLS.md) for the full list, or [midasiteurope.com/llm](https://midasiteurope.com/llm#tools) for every input.
 
 | Area | Plugins and tools |
 |---|---|
@@ -38,6 +38,7 @@ It is listed in the official [MCP Registry](https://registry.modelcontextprotoco
 | Loads and combinations | CS 454 and Eurocode Moving Load Wizards, CS 454 and Eurocode Load Combinations, Wind Load Calculator, Bridge Thermal Loads |
 | Prestressing | **Tendon Designer**: post- and pre-tensioned tendons to EN 1992-1-1 (new layouts, or the model's own tendons read in and checked), composite girders stage by stage, standard precast beam strand patterns with debonding, external tendons, written to the model with their prestress and stages |
 | Construction stages | Construction Stage Wizard, Construction Stage Reporter |
+| Model checking | **Model health check**: about 45 checks of the model data (mesh and beam quality, properties, links, supports, loads, stages, combinations, groups, tendons) and, on an analysed model, reactions against the applied loads, self weight against element volumes, and displacements — red/amber/green by area |
 | Results and reporting | Concurrent Force Reporter, Load Combination Contribution Analyzer, Stress Profile Generator, Bulk Tabular Result Exporter, Model Report, Model to IFC |
 | Design and assessment | CS 455 RC + PSC Assessment, Eurocode Section Checker, RC Slab & Shell Assessment, 2D Culvert, PD 6694-1 Integral Abutment |
 
