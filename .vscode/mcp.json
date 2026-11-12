@@ -5,7 +5,7 @@
   "servers": {
     "civilNx": {
       "type": "http",
-      "url": "https://midasiteurope.com/mcp",
+      "url": "https://midasiteurope.com/mcp/lazy",
       "headers": { "Authorization": "Bearer ${input:civil-nx-token}" }
     }
   }

@@ -20,8 +20,10 @@ Beyond the plugins, it can **build a model from scratch**: it looks up each tabl
 The server is hosted by MIDAS IT Europe. **There is nothing to install.** You point your assistant at one address:
 
 ```
-https://midasiteurope.com/mcp
+https://midasiteurope.com/mcp/lazy
 ```
+
+This is [lazy mode](#lazy-mode-fewer-tokens-in-every-chat): your assistant starts with three small tools and looks up the rest when a task needs them, instead of reading every tool's description (about 80,000 tokens) at the start of every chat. `https://midasiteurope.com/mcp` without `/lazy` lists every tool up front.
 
 It is listed in the official [MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=com.midasiteurope) as `com.midasiteurope/civil-nx`.
 
@@ -50,7 +52,7 @@ It is listed in the official [MCP Registry](https://registry.modelcontextprotoco
 1. Sign in at **[midasiteurope.com/llm](https://midasiteurope.com/llm#connect)**.
 2. Paste the MAPI key from CIVIL NX. It is checked with MIDAS and stored encrypted.
 3. You get two things. Copy them straight away, because they are shown only once:
-   - a **connector URL**, for clients that connect by URL;
+   - a **connector URL** (`https://midasiteurope.com/mcp/c/<your token>/lazy`), for clients that connect by URL;
    - a **personal token** (`cnx_…`), for clients that send a header.
 
 You give your assistant the URL or the token, never your MAPI key. A token can be made **read-only**: the assistant can then read and preview, but every apply is refused.
@@ -77,6 +79,8 @@ The extension is a small bridge that forwards Claude's requests to `https://mida
 claude mcp add --transport http civil-nx https://midasiteurope.com/mcp --header "Authorization: Bearer <your personal token>"
 ```
 
+Claude Code already looks tools up only when it needs them, so it uses the full address without `/lazy`.
+
 ### Visual Studio Code / GitHub Copilot
 
 Run **MCP: Add Server** from the Command Palette, choose **HTTP** and paste your connector URL.
@@ -91,7 +95,7 @@ Or copy [`.vscode/mcp.json`](.vscode/mcp.json) from this repository into your pr
   "servers": {
     "civilNx": {
       "type": "http",
-      "url": "https://midasiteurope.com/mcp",
+      "url": "https://midasiteurope.com/mcp/lazy",
       "headers": { "Authorization": "Bearer ${input:civil-nx-token}" }
     }
   }
@@ -103,7 +107,7 @@ Then open Copilot Chat in **Agent** mode, check that the CIVIL NX tools are tick
 ### Microsoft Copilot Studio (agents for Microsoft 365 Copilot and Teams)
 
 1. Open your agent and go to **Tools > Add a tool > New tool > Model Context Protocol**.
-2. Set Server name to *CIVIL NX tools*, give a description such as *Reads, checks and builds the user's open MIDAS CIVIL NX model*, and set Server URL to `https://midasiteurope.com/mcp`.
+2. Set Server name to *CIVIL NX tools*, give a description such as *Reads, checks and builds the user's open MIDAS CIVIL NX model*, and set Server URL to `https://midasiteurope.com/mcp/lazy`.
 3. Set Authentication to **API key**, type **Header**, header name `X-MAPI-Key`. Select **Create**.
 4. Under **Create a new connection**, paste your personal token (the `cnx_…` value on its own, without `Bearer`). Then select **Add to agent**.
 
@@ -117,7 +121,7 @@ Any HTTP client can call `POST https://midasiteurope.com/api/v1/tools/<tool>` wi
 
 ### Lazy mode: fewer tokens in every chat
 
-Most assistants read every tool's description at the start of every conversation: roughly 80,000 tokens for all the tools. Add `/lazy` to the address and the assistant sees three small tools instead:
+Most assistants read every tool's description at the start of every conversation: roughly 80,000 tokens for all the tools. So the addresses above, the connector URL from midasiteurope.com/llm and [`.vscode/mcp.json`](.vscode/mcp.json) all end in `/lazy`, and the assistant sees three small tools instead:
 
 ```
 https://midasiteurope.com/mcp/lazy
@@ -128,7 +132,7 @@ https://midasiteurope.com/mcp/c/<your token>/lazy
 - `run_tool` runs one of them.
 - `job_status` follows background jobs.
 
-The tools behind them, their previews, go-aheads and undo are exactly the same. Use it in claude.ai, ChatGPT, Copilot and other assistants that load every tool up front. Claude Code already looks tools up only when it needs them, so it does not need lazy mode. The trade-off: one extra lookup for each new kind of task, and your assistant asks permission for `run_tool` as a whole rather than tool by tool.
+The tools behind them, their previews, go-aheads and undo are exactly the same. Keep it in claude.ai, ChatGPT, Copilot and other assistants that load every tool up front. Claude Code already looks tools up only when it needs them, so it uses the full address `https://midasiteurope.com/mcp`; any address without `/lazy` lists every tool, and connections made before lazy became the default keep working as they are. The trade-off: one extra lookup for each new kind of task, and your assistant asks permission for `run_tool` as a whole rather than tool by tool.
 
 ## How it works
 
