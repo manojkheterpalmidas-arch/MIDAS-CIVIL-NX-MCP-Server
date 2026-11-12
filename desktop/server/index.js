@@ -2,15 +2,18 @@
 // MIDAS CIVIL NX tools for Claude Desktop: a stdio bridge to the hosted MCP server.
 //
 // Claude Desktop starts this program and talks MCP to it over stdin/stdout, one JSON-RPC
-// message per line. Every message is forwarded unchanged to https://midasiteurope.com/mcp
+// message per line. Every message is forwarded unchanged to https://midasiteurope.com/mcp/lazy
 // (streamable HTTP) with the user's personal token, and every reply is written back. The
 // tools themselves run on midasiteurope.com; nothing about them is in this file.
+// Lazy mode: Claude sees find_tools / run_tool / job_status instead of every tool's
+// description (~80k tokens) in every chat. MIDAS_MCP_URL=https://midasiteurope.com/mcp
+// lists every tool up front instead.
 // No dependencies: Node 18+ (fetch).
 "use strict";
 
-const URL_ = (process.env.MIDAS_MCP_URL || "https://midasiteurope.com/mcp").trim();
+const URL_ = (process.env.MIDAS_MCP_URL || "https://midasiteurope.com/mcp/lazy").trim();
 const TOKEN = (process.env.MIDAS_CNX_TOKEN || "").trim();
-const VERSION = "1.0.0";
+const VERSION = "1.0.1";
 
 let sessionId = null;
 let protocolVersion = null;

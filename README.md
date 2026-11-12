@@ -67,7 +67,7 @@ Tokens don't expire. If your MAPI key changes, use *Change key* on the same page
 2. Double-click it, or drag it into Claude Desktop (*Settings > Extensions*). Then select **Install**.
 3. Paste your **personal token** when asked. Claude Desktop keeps it in your system's secure store.
 
-The extension is a small bridge that forwards Claude's requests to `https://midasiteurope.com/mcp`, where the tools run. Its source is in [`desktop/`](desktop). It works on any Claude plan that has Claude Desktop, with no custom-connector setting needed.
+The extension is a small bridge that forwards Claude's requests to `https://midasiteurope.com/mcp/lazy`, where the tools run (lazy mode since extension 1.0.1). Its source is in [`desktop/`](desktop). It works on any Claude plan that has Claude Desktop, with no custom-connector setting needed.
 
 ### claude.ai (web), or Claude Desktop by URL
 
