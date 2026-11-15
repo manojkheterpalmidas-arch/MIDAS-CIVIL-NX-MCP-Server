@@ -154,6 +154,8 @@ Try asking:
 
 > *Here's a sketch of the deck section. Build it with Section Designer and show me the drawing to check before writing it.*
 
+> *Spread the wheel loads in my model through the fill onto the arch barrel in group "ARCH". Work out the fill depth from the model, tell me how much of each load falls beyond the edge of the arch, then show me the preview before you write the patch loads.*
+
 ## Safety, privacy and engineering responsibility
 
 - **Nothing is written without a preview.** A second call must name the previewed plan. One change runs on a model at a time, and the same apply sent twice is carried out once.
