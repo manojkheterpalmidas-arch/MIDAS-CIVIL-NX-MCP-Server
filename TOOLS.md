@@ -147,7 +147,7 @@
 
 | Tool | What it does | Effect | Runs |
 |---|---|---|---|
-| `skew_grillage` | Generates a bridge deck (beam grillage or plate mesh) with the Skew Grillage Geometry Generator plugin's own engine: skew, unequal girders, plan curvature, multi-span, crossfall and vertical profile… | Changes model | Background when applied |
+| `skew_grillage` | Generates a bridge deck (beam grillage or plate mesh) with the Skew Grillage Geometry Generator plugin's own engine: skew (0 = straight/square), unequal girders, plan curvature, multi-span, crossfall… | Changes model | Background when applied |
 | `skew_grillage_undo` | Removes the deck a skew_grillage run wrote (its elements, nodes, new structure groups and any default properties nothing else uses). | Changes model | Background when applied |
 
 ## Load Combination Contribution Analyzer
