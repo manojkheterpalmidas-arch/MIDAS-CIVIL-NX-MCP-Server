@@ -1,16 +1,24 @@
 // Writes TOOLS.md from the site's tool catalogue (src/data/llm-tools.json in the website repo,
 // generated from the same registry the /mcp endpoint serves).
-// Usage: node scripts/make-tools-md.mjs <path to llm-tools.json>
+// Usage: node scripts/make-tools-md.mjs <path to llm-tools.json> [path to disambiguate.mjs]
+// Each live description starts with a "use this, not that" routing line (civil-nx-mcp
+// src/disambiguate.mjs). Given that file, the table shows what the tool does and when to use
+// it in separate columns; without it, the description's first sentence only.
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const src = process.argv[2];
 if (!src) {
-  console.error("usage: node scripts/make-tools-md.mjs <llm-tools.json>");
+  console.error("usage: node scripts/make-tools-md.mjs <llm-tools.json> [disambiguate.mjs]");
   process.exit(1);
 }
 const { tools } = JSON.parse(fs.readFileSync(src, "utf8").replace(/^﻿/, ""));
+const GUIDE = process.argv[3] ? (await import(pathToFileURL(path.resolve(process.argv[3])).href)).GUIDE : null;
+const split = (t) => {
+  const lead = GUIDE?.[t.name];
+  return lead && t.description.startsWith(lead) ? { what: t.description.slice(lead.length + 1), when: lead } : { what: t.description, when: "" };
+};
 
 // Same wording as the badges on midasiteurope.com/llm.
 function effect(t) {
@@ -55,8 +63,16 @@ const out = [
 ];
 for (const [plugin, list] of groups) {
   if (!list.length) continue;
-  out.push(`## ${plugin}`, "", "| Tool | What it does | Effect | Runs |", "|---|---|---|---|");
-  for (const t of list) out.push(`| \`${t.name}\` | ${firstSentence(t.description)} | ${effect(t)} | ${RUNS[t.runs] || ""} |`);
+  if (GUIDE) {
+    out.push(`## ${plugin}`, "", "| Tool | What it does | When to use it | Effect | Runs |", "|---|---|---|---|---|");
+    for (const t of list) {
+      const { what, when } = split(t);
+      out.push(`| \`${t.name}\` | ${firstSentence(what)} | ${cell(when)} | ${effect(t)} | ${RUNS[t.runs] || ""} |`);
+    }
+  } else {
+    out.push(`## ${plugin}`, "", "| Tool | What it does | Effect | Runs |", "|---|---|---|---|");
+    for (const t of list) out.push(`| \`${t.name}\` | ${firstSentence(t.description)} | ${effect(t)} | ${RUNS[t.runs] || ""} |`);
+  }
   out.push("");
 }
 const dest = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "TOOLS.md");
