@@ -1,6 +1,6 @@
 # Tools
 
-108 tools from 28 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
+91 tools from 28 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
 
 - **Calculation**: needs no model and no account.
 - **Read-only**: reads the open model, never changes it.
@@ -21,16 +21,15 @@
 | `civil_combinations_quick` | Writes general load combinations from plain factors, e.g. { name: "ULS1", factors: { "SW": 1.35, "SDL": 1.35, "LM1": 1.5 } } — for hand-picked combinations; for the full code set use… | Use for a few hand-picked combinations. | Changes model | Background when applied |
 | `civil_remove_loads` | Takes loads out of the model without touching other load cases: CIVIL NX keeps every case's beam loads, nodal loads, pressures and temperatures of an element or node in ONE row, so a plain delete… | Use to take out loads, supports or load cases you name. To reverse a plugin run use that plugin's undo; for wind or thermal cases use ec_wind_remove or bridge_thermal_remove. | Changes model | Background when applied |
 | `civil_write_tables` | Creates, changes or deletes rows in any CIVIL NX database table through the MIDAS API — nodes, elements, materials, sections, thicknesses, supports, links, load cases, loads, groups, stages… | Use for a model change no other tool makes (e.g. building from scratch). Prefer civil_loads_supports for loads and supports, civil_combinations_quick for combinations, and a plugin tool where one fits. | Changes model | Background when applied |
-| `civil_write_tables_undo` | Puts every row a civil_write_tables run touched back as it was before the run: deletes rows it created, restores rows it changed or deleted (a merging table's row is replaced whole). | Use to reverse a civil_write_tables, civil_loads_supports, civil_combinations_quick or civil_remove_loads run (they share one ledger). | Changes model | Background when applied |
 | `civil_run_analysis` | Runs the CIVIL NX analysis of the open model (doc/ANAL), so results can be read with the result tools straight after building or changing a model. | Use to run the analysis of any model. For culverts use culvert_analyse_and_check; for PD 6694 SSI use pd6694_ssi_run. | Changes model | Background when applied |
 | `civil_save_model` | Saves the open CIVIL NX model: over its own file (doc/SAVE), or as a new .mcb file when path is given (doc/SAVEAS; a file of that name is overwritten). | Use to save the open model, or save it under a new path. | Changes model | Background when applied |
+| `undo_run` | Reverses one change a tool made to the model, from the record every apply leaves. | Use to reverse any change a tool made to the model (list the recorded runs, preview, then apply). For wind or PD 6694 loads use ec_wind_remove / pd6694_route_a_remove / pd6694_ssi_remove; to take out loads or supports added by hand use civil_remove_loads. | Changes model | Background when applied |
 
 ## Auto Structure Groups
 
 | Tool | What it does | When to use it | Effect | Runs |
 |---|---|---|---|---|
 | `auto_structure_groups` | Creates one structure group per section, per material, or per section + material pair, with the Auto Structure Groups plugin's own engine: it reads every element's section and material, names each… | Use to group elements automatically by section, material or both. For groups by position or by construction-stage segment use stage_groups; for one group of ids you already know use civil_write_tables (GRUP). | Changes model | Background when applied |
-| `auto_structure_groups_undo` | Reverses an auto_structure_groups run from the ledger: deletes the groups it created and puts every group it added members to back exactly as it was (from the snapshot taken just before the write). | Use only to reverse a auto_structure_groups run (from its ledger); every write tool has its own undo. | Changes model | Background when applied |
 
 ## Beam to Plate
 
@@ -38,7 +37,6 @@
 |---|---|---|---|---|
 | `b2p_survey` | Reads the model the way the Beam to Plate plugin (1.0.6) does and studies every section the chosen beams use, against CIVIL NX's own published properties (/ope/SECTPROP): whether the outline was READ… | Use before b2p_convert, to see which beams and sections can become a plate or solid mesh. To read a section's shape use section_read; for bar placement in a design check use ec2_describe_section or cs455_describe_section. | Read-only | Background |
 | `b2p_convert` | Converts beam elements into a plate (or solid) mesh of their cross-section with the Beam to Plate plugin's own engine (1.0.6): every section CIVIL NX gives geometry for (rolled/fabricated steel, PSC… | Use to replace beam elements with a plate or solid mesh of their real cross-section (a detailed local model). Not for building a new deck (skew_grillage) or changing spans (bridge_reshape). | Changes model | Background |
-| `b2p_undo` | Undoes a b2p_convert run from the ledger with the plugin's own Undo: removes the virtual beams, the plates/solids, the rigid links and construction-joint links, the converted loads and the nodes it… | Use only to reverse a b2p_convert run (from its ledger); every write tool has its own undo. | Changes model | Background when applied |
 
 ## Bridge Reshaper
 
@@ -46,7 +44,6 @@
 |---|---|---|---|---|
 | `bridge_reshape_read` | Reads the open model the way the Bridge Reshaper plugin (1.0.6) does: the deck (straight, in straight pieces kinked at half-joints or piers, or curved; beam girders, girders meshed as plates, or a… | Use before bridge_reshape, to see the existing bridge's spans, skews, alignment and levels. Read-only. | Read-only | Background |
 | `bridge_reshape` | Changes the geometry of the bridge in the open model in place, with the Bridge Reshaper plugin's own engine (1.0.6): new span lengths (the deck is stretched - each span keeps its element count), a… | Use to change the spans, support skews, alignment or deck levels of a bridge that is already in the model. For a new deck use skew_grillage; for geometry from a drawing use dxf_import. | Changes model | Background |
-| `bridge_reshape_undo` | Undoes a bridge_reshape run from the ledger with the plugin's own Undo: every row the run overwrote is written back and every row it created is removed, so the model returns exactly. | Use only to reverse a bridge_reshape run (from its ledger); every write tool has its own undo. | Changes model | Background when applied |
 
 ## Bridge Thermal Loads
 
@@ -55,7 +52,6 @@
 | `bridge_thermal_calc` | Calculates bridge temperature actions with the Bridge Thermal Loads plugin's own engine: shade air and effective bridge temperatures, the uniform ranges ΔT_N,con / ΔT_N,exp (and bearing ranges), the… | Use for code temperature values of a bridge (EN 1991-1-5, CS 454, BS 5400-2) without touching the model. To write them use bridge_thermal_apply; for a temperature you already know use civil_loads_supports (temperature). | Calculation |  |
 | `bridge_thermal_read` | Reads the open model the way the Bridge Thermal Loads plugin does: the deck from a structure group, element list or the CIVIL NX selection, grouped into sections (beams by section, plates by… | Use before bridge_thermal_apply, to find the deck and its sections. Read-only. | Read-only | Background |
 | `bridge_thermal_apply` | Calculates the temperature actions for the deck and writes them with the Bridge Thermal Loads plugin's writer: EC1T_Uniform_Exp/_Con (type T, element or system temperature), EC1T_Diff_Heat/_Cool… | Use to write code-derived bridge temperature load cases (EC1T_…) on the deck. For a single temperature value you already have, civil_loads_supports (temperature) is simpler. | Changes model | Background |
-| `bridge_thermal_undo` | Undoes the latest bridge_thermal_apply or bridge_thermal_remove run (or the run named): deletes the EC1T_ cases present now and puts back the EC1T_ cases and loads saved before that run, merged into… | Use to reverse the latest bridge_thermal_apply or bridge_thermal_remove run. To clear every EC1T_ case whoever wrote it, use bridge_thermal_remove. | Changes model | Background when applied |
 | `bridge_thermal_remove` | Removes what the Bridge Thermal Loads plugin writes: every load case whose name starts with EC1T_ (also named sets and ones the plugin window wrote) and all temperature loads in them, on any element. | Use to delete every EC1T_ thermal load case, whichever run or window wrote it. To reverse one run only use bridge_thermal_undo; for other loads use civil_remove_loads. | Changes model | Background when applied |
 
 ## Concurrent Force Reporter
@@ -73,7 +69,6 @@
 | `cs454_lane_layout` | Lays out CS 454 notional lanes, remaining areas, footways and strips on a carriageway cross-section with the CS454 - Moving Load Wizard's own layout engine (Table 5.9a, cl 5.10, ALL model 1… | Use to lay out CS 454 notional lanes on a carriageway width, with no model. For EN 1991-2 lanes use ec_lane_layout; to write lanes and vehicles use cs454_moving_loads. | Calculation |  |
 | `cs454_moving_loads_read` | Read-only: changes nothing in the model. Call it before cs454_moving_loads to see what the CS454 - Moving Load Wizard would do. | Use before cs454_moving_loads. For Eurocode traffic use ec_moving_loads_read. | Read-only | Background |
 | `cs454_moving_loads` | CS 454 assessment live loading with the CS454 - Moving Load Wizard plugin's own engine: notional lanes laid out on the carriageway (line lanes on a grillage, surface lanes on a plate deck), ALL model… | Use for UK CS 454 assessment live loading (lanes, vehicles, moving-load cases). For EN 1991-2 traffic use ec_moving_loads; to spread existing point loads into patches use point_to_patch_apply. | Changes model | Background when applied |
-| `cs454_moving_loads_undo` | Removes the lanes, vehicles, cases, envelopes and groups a cs454_moving_loads run wrote, using the plugin's own cleanup (cases and envelopes first, bottom up, at most 100 per call): anything edited… | Use only to reverse a cs454_moving_loads run (from its ledger); every write tool has its own undo. | Changes model | Background when applied |
 
 ## CS 454 Load Assessment Combinations
 
@@ -81,7 +76,6 @@
 |---|---|---|---|---|
 | `cs454_combinations_read` | Reads the open model the way the CS 454 Load Assessment Combinations plugin does: every static, construction-stage, settlement and moving load case with the Table A.1 action / CS 454 load model and… | Use before cs454_combinations_apply. For Eurocode use ec_combinations_read; to list or explore the combinations already in the model use combination_tree. | Read-only |  |
 | `cs454_combinations_apply` | Generates CS 454 assessment load combinations with the plugin's engine (Table A.1 γfL by combination 1–4 and limit state, adverse/relieving permanent variants, wind sub-case, ALL/SV/HB traffic with… | Use for the full CS 454 (UK assessment) combination set. For EN 1990 use ec_combinations_apply; for a few hand-picked combinations use civil_combinations_quick. | Changes model | Background |
-| `cs454_combinations_undo` | Undoes the latest cs454_combinations_apply run (or the run named) with the plugin's cleanup: deletes the rows it wrote that still carry its names (referencing rows first), then restores every table… | Use only to reverse a cs454_combinations_apply run (from its ledger); every write tool has its own undo. | Changes model | Background when applied |
 
 ## CS 455 RC + PSC Assessment
 
@@ -105,7 +99,6 @@
 |---|---|---|---|---|
 | `culvert_preview` | Validates a 2D Culvert project with the plugin's own Eurocode core and returns what it would build: nodes, elements, soil springs, basic load cases (traffic unit cases), the EN 1990 Annex A2… | Step 1 of a 2D box culvert built from inputs (Eurocode). Not for bridge decks (skew_grillage). | Calculation |  |
 | `culvert_build` | Writes the 2D Culvert model exactly as the plugin's Build: units, user material, sections, frame, soil springs, supports, every basic load case with its loads, and the nested EN 1990 Annex A2… | Use to write the 2D culvert model after culvert_preview. Only for culverts. | Changes model | Background when applied |
-| `culvert_build_undo` | Deletes every row a culvert_build wrote (combinations, loads, load cases, springs, supports, groups, elements, nodes, sections, material) from the ledger's record, and puts back the model's units. | Use only to reverse a culvert_build run (from its ledger); every write tool has its own undo. | Changes model | Background when applied |
 | `culvert_analyse_and_check` | On the culvert model built from the same inputs (refused if the open model's counts differ): runs the CIVIL NX analysis (unless analyse: false), reads the basic-case results (forces, reactions… | Use only on a culvert made by culvert_build. To analyse any other model use civil_run_analysis. | Changes model | Background |
 | `culvert_report` | Runs the checks on the analysed culvert model (as culvert_analyse_and_check, without re-analysing unless analyse: true) and writes the plugin's report: format xlsx (default) = the calculation book in… | Use for the culvert calculation report. For a general model report use model_report_export. | Read-only | Background |
 
@@ -115,7 +108,6 @@
 |---|---|---|---|---|
 | `dxf_inspect` | Reads a DXF with the Advanced DXF Importer plugin's own parser and clean-up and reports what an import would create: the file (version, encoding, entity counts, what is ignored or unsupported), its… | Use before dxf_import, to see what a DXF would create. No model needed. | Calculation |  |
 | `dxf_import` | Imports a DXF into the open CIVIL NX model with the Advanced DXF Importer plugin's engine: the same parse, layer mapping, clean-up and write as the plugin. | Use to bring geometry from a DXF drawing into the model. For a deck from parameters use skew_grillage; for nodes from a coordinate list use create_nodes. To export a DXF use model_to_dxf. | Changes model | Background when applied |
-| `dxf_import_undo` | Removes what one dxf_import created, with the plugin's own removal rules: it refuses unless the import's master group is in the open model; deletes the import's elements, then its nodes, only where… | Use only to reverse a dxf_import run (from its ledger); every write tool has its own undo. | Changes model | Background when applied |
 
 ## Eurocode Load Combinations
 
@@ -123,7 +115,6 @@
 |---|---|---|---|---|
 | `ec_combinations_read` | Reads the open model the way the Eurocode Load Combinations plugin does: every static, moving (characteristic/frequent pairs), construction-stage, settlement and response-spectrum case with the… | Use before ec_combinations_apply. For CS 454 use cs454_combinations_read; to list or explore the combinations already in the model use combination_tree. | Read-only |  |
 | `ec_combinations_apply` | Generates EN 1990 bridge load combinations with the Eurocode Load Combinations plugin's engine (6.10 / 6.10a+b, SLS characteristic / frequent / quasi-permanent, accidental 6.11, seismic 6.12; Annex… | Use for the full EN 1990 bridge combination set. For CS 454 use cs454_combinations_apply; for a few hand-picked combinations use civil_combinations_quick. | Changes model | Background |
-| `ec_combinations_undo` | Undoes the latest ec_combinations_apply run (or the run named) with the plugin's undo: deletes the rows it wrote that still carry its names, then restores the rows it deleted at their original keys. | Use only to reverse a ec_combinations_apply run (from its ledger); every write tool has its own undo. | Changes model | Background when applied |
 
 ## Eurocode - Moving Load Wizard
 
@@ -132,7 +123,6 @@
 | `ec_lane_layout` | Lays out EN 1991-2 lanes on a carriageway cross-section with the Eurocode - Moving Load Wizard's own layout engine: Table 4.1 notional lanes and the remaining area, footways, the LM2 axle lane, the… | Use to lay out EN 1991-2 notional lanes on a carriageway width, with no model. For CS 454 lanes use cs454_lane_layout; to write lanes and vehicles use ec_moving_loads. | Calculation |  |
 | `ec_moving_loads_read` | Read-only: changes nothing in the model. Call it before ec_moving_loads to see what the Eurocode - Moving Load Wizard would do. | Use before ec_moving_loads. For CS 454 traffic use cs454_moving_loads_read. | Read-only | Background |
 | `ec_moving_loads` | EN 1991-2 traffic loading with the Eurocode - Moving Load Wizard plugin's own engine: lanes laid out on the carriageway (line lanes on a grillage, surface lanes on a plate deck) for the chosen load… | Use for EN 1991-2 traffic loading (lanes, vehicles, moving-load cases). For UK CS 454 assessment use cs454_moving_loads; to spread existing point loads into patches use point_to_patch_apply. | Changes model | Background when applied |
-| `ec_moving_loads_undo` | Removes the lanes, vehicles, cases and groups an ec_moving_loads run wrote, using the plugin's own cleanup (cases first, bottom up, at most 100 per call): anything edited since the run, or still used… | Use only to reverse a ec_moving_loads run (from its ledger); every write tool has its own undo. | Changes model | Background when applied |
 
 ## Wind Load Calculator
 
@@ -148,7 +138,6 @@
 | Tool | What it does | When to use it | Effect | Runs |
 |---|---|---|---|---|
 | `skew_grillage` | Generates a bridge deck (beam grillage or plate mesh) with the Skew Grillage Geometry Generator plugin's own engine: skew (0 = straight/square), unequal girders, plan curvature, multi-span, crossfall… | Use to create a new bridge deck (beam grillage or plate mesh) from spans, widths and skew. To change a deck already in the model use bridge_reshape; for geometry from a drawing use dxf_import. | Changes model | Background when applied |
-| `skew_grillage_undo` | Removes the deck a skew_grillage run wrote (its elements, nodes, new structure groups and any default properties nothing else uses). | Use only to reverse a skew_grillage run (from its ledger); every write tool has its own undo. | Changes model | Background when applied |
 
 ## Load Combination Contribution Analyzer
 
@@ -161,8 +150,7 @@
 
 | Tool | What it does | When to use it | Effect | Runs |
 |---|---|---|---|---|
-| `model_health_check` | One read-only check of the open CIVIL NX model for anything that is likely wrong, grouped into areas with a red/amber/green status each. | Use for "is anything wrong with my model?". This is the full check: it runs model_qc_check's fourteen checks plus units, tendons, stages, moving loads and results. Prefer it to model_qc_check. | Read-only | Background |
-| `model_qc_check` | Runs the Model Report plugin's fourteen quality checks on the open CIVIL NX model: duplicate (coincident) nodes, orphan nodes, zero-length and duplicate elements, elements without material/section… | The Model Report's fourteen checks only; model_health_check runs these and many more, so prefer it unless the user asks for the Model Report checks alone. | Read-only | Background |
+| `model_health_check` | One read-only check of the open CIVIL NX model for anything that is likely wrong, grouped into areas with a red/amber/green status each. | Use for "is anything wrong with my model?". This is the full check: the Model Report's fourteen QC checks plus units, tendons, stages, moving loads and results. For a design check of a section use ec2_section_check or cs455_assess. | Read-only | Background |
 | `model_report_images` | Lists the CIVIL NX pictures the Model Report can put in this model's report, with their keys: FE model views (iso, plan, front, side), the applied loads of each static load case, the figures saved in… | Use before model_report_export, to pick the pictures for the report. | Read-only | Background |
 | `model_report_export` | Builds the Model Report plugin's 'Model report' for the open CIVIL NX model — cover, contents, materials, sections (with drawings), supports and springs, load cases, combinations and loads… | Use for the whole-model report document. For construction stages use cs_stage_report; for a design calculation sheet use ec2_export_calc_sheet or cs455_export_calc_sheet; for raw tables use export_result_tables. | Read-only | Background |
 
@@ -179,7 +167,6 @@
 | Tool | What it does | When to use it | Effect | Runs |
 |---|---|---|---|---|
 | `create_nodes` | Creates nodes in the open CIVIL NX model from X, Y, Z coordinates with the Node Generator plugin's own engine: every check the plugin window makes (blank or non-numeric coordinates, bad or duplicate… | Use to create many nodes from coordinates, with the plugin's checks. For nodes plus elements use civil_write_tables; for a whole deck use skew_grillage. | Changes model | Background when applied |
-| `create_nodes_undo` | Reverses a create_nodes run from the ledger: deletes the nodes it created and moves every node it overwrote back to its earlier coordinates. | Use only to reverse a create_nodes run (from its ledger); every write tool has its own undo. | Changes model | Background when applied |
 
 ## PD 6694-1 Integral Abutment
 
@@ -199,7 +186,6 @@
 | `point_to_patch_dispersal` | The Point to Patch Convertor's dispersal for one point load: the code's contact area (or the load-derived one), the spread through surfacing and slab to the mid-plane or neutral axis, the effective… | Use for one wheel or point load's dispersal patch, with no model. To convert the model's loads use point_to_patch_apply. | Calculation |  |
 | `point_to_patch_read` | Reads the open model as the Point to Patch Convertor does: whether the deck is plates or a grillage, its levels and groups, the point loads (nodal and beam concentrated) per load case that could be… | Use before point_to_patch_apply. Read-only. | Read-only | Background |
 | `point_to_patch_apply` | Converts the model's point loads (or a coordinate table) into dispersed patch loads with the Point to Patch Convertor's engine and writes them as PATCH_&lt;case&gt; load cases: plate decks get… | Use to turn the model's point loads into dispersed patch loads. For new traffic use ec_moving_loads or cs454_moving_loads; for new point loads use civil_loads_supports. | Changes model | Background |
-| `point_to_patch_undo` | Undoes the latest point_to_patch_apply run (or the run named) with the plugin's cleanup: every PRES / BMLD row the run touched is put back as it was, the PATCH_ cases it removed are restored and the… | Use only to reverse a point_to_patch_apply run (from its ledger); every write tool has its own undo. | Changes model | Background when applied |
 
 ## RC Slab & Shell Assessment
 
@@ -225,7 +211,6 @@
 | `section_preview` | Checks a cross-section's outlines with Section Designer's own rules (closed, not self-crossing, holes inside their outline, no overlaps, materials) and returns a PNG drawing of it — the outlines… | Step 1 for a new section from a sketch or outline. For a section already in the model use section_read; for a code check use ec2_describe_section or cs455_describe_section. | Calculation |  |
 | `section_properties` | Computes the full CIVIL NX property set of a section with Section Designer's solver: exact area, centroid, second moments, extreme fibres and perimeters from the outlines, and torsion J and shear… | Use for a new section's computed properties before writing it. For an existing section's stored properties use section_read. | Calculation |  |
 | `section_write` | Writes a section into the open CIVIL NX model exactly as Section Designer's Write button does: VALUE/GEN, PSC/VALU or COMPOSITE-GEN with its computed properties (CIVIL keeps them as sent), in the… | Use to write a designed section into the model, after section_preview. | Changes model | Background when applied |
-| `section_write_undo` | Reverses a section_write run from the ledger: deletes the section it created (refused while elements use it), or writes back the section it replaced, then reads back. | Use only to reverse a section_write run (from its ledger); every write tool has its own undo. | Changes model | Background when applied |
 | `section_read` | Without id: lists the model's sections (id, name, type, whether Section Designer stores it as outlines) and the next free id. | Use to list the model's sections, or get one's outline to edit. For a code check use ec2_describe_section or cs455_describe_section; for Beam to Plate use b2p_survey. | Read-only |  |
 
 ## Construction Stage Wizard
@@ -234,7 +219,6 @@
 |---|---|---|---|---|
 | `stage_groups` | Creates structure groups with the Construction Stage Wizard plugin's group builder: pick a scope of elements, split it by rules (slice along X/Y/Z into n segments or at cuts, by section, material… | Use to make structure groups by position (slices, segments) for staging. For groups by section or material use auto_structure_groups. | Changes model | Background when applied |
 | `construction_stages` | Builds a construction stage sequence with the Construction Stage Wizard plugin's bulk generator and writes it with its stage planner (which keeps composite sections and construction-stage load… | Use to create a construction stage sequence. To read the stages already defined use cs_stage_summary. | Changes model | Background when applied |
-| `stages_undo` | Restores the rows a stage_groups or construction_stages run changed, from the snapshot taken just before it wrote (the plugin's own restore). | Use only to reverse a stage_groups or construction_stages run. | Changes model | Background when applied |
 
 ## Stress Profile Generator
 
@@ -250,7 +234,6 @@
 |---|---|---|---|---|
 | `tendon_design` | Designs the post- or pre-tensioning tendons of a concrete girder in the open model to EN 1992-1-1 with the Tendon Designer plugin's own engine, or reads the model's own tendons and checks them (mode… | Use to design, or check, the prestressing tendons of a concrete girder. It writes nothing: tendon_write does. | Read-only | Background |
 | `tendon_write` | Writes a tendon_design result into the open model with the Tendon Designer plugin's writer: the strand material and tendon property (or one already in the model), every tendon profile (TDNA) and its… | Use after tendon_design, to write its tendons into the model. | Changes model | Background |
-| `tendon_write_undo` | Undoes the latest tendon_write (or the run named), newest first: removes the tendons, prestress, property, material, load case and load groups it created, puts back the model tendons it removed, and… | Use only to reverse a tendon_write run (from its ledger); every write tool has its own undo. | Changes model | Background when applied |
 
 ## Eurocode Section Checker
 

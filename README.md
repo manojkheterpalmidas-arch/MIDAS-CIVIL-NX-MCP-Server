@@ -29,7 +29,7 @@ It is listed in the official [MCP Registry](https://registry.modelcontextprotoco
 
 ## Capabilities
 
-108 tools: the engines of 28 plugins, plus model-level tools. See [TOOLS.md](TOOLS.md) for the full list, or [midasiteurope.com/llm](https://midasiteurope.com/llm#tools) for every input.
+91 tools: the engines of 28 plugins, plus model-level tools. See [TOOLS.md](TOOLS.md) for the full list, or [midasiteurope.com/llm](https://midasiteurope.com/llm#tools) for every input. How the calculations have been checked against published worked examples and code equations, and what has not been checked yet, is in [VERIFICATION.md](VERIFICATION.md).
 
 | Area | Plugins and tools |
 |---|---|
@@ -135,12 +135,32 @@ https://midasiteurope.com/mcp/c/<your token>/lazy
 
 The tools behind them, their previews, go-aheads and undo are exactly the same. Keep it in claude.ai, ChatGPT, Copilot and other assistants that load every tool up front. Claude Code already looks tools up only when it needs them, so it uses the full address `https://midasiteurope.com/mcp`; any address without `/lazy` lists every tool, and connections made before lazy became the default keep working as they are. The trade-off: one extra lookup for each new kind of task, and your assistant asks permission for `run_tool` as a whole rather than tool by tool.
 
+### Task profiles: only the tools for one kind of work
+
+A profile address lists a fixed, smaller set of tools, under a third of the full list, each with its full description. The server refuses any other tool on that connection:
+
+```
+https://midasiteurope.com/mcp/p/<profile>
+https://midasiteurope.com/mcp/c/<your token>/p/<profile>
+```
+
+| Profile | For |
+|---|---|
+| `build` | Grillages, nodes, sections, structure groups and stages, Beam to Plate, DXF import, culverts, reshaping a bridge, model table writes |
+| `loads` | Supports and loads, wind, thermal, wheel-load dispersal, PD 6694 integral abutments, load combinations |
+| `traffic` | EN 1991-2 and CS 454 lanes and moving loads, with their combinations |
+| `prestress` | Tendon Designer, stress profiles, SLS stress checks |
+| `checks` | Model health, EN 1992 and CS 455 section checks, RC slabs, culverts, combination contributions, concurrent forces |
+| `reports` | Result tables, model and construction-stage reports, IFC and DXF exports |
+
+Every profile also has `civil_status`, `civil_read_table`, `job_status`, `undo_run` and the MIDAS manual search. Use a profile when a chat is about one kind of work and you want the assistant to see, and ask permission for, only those tools.
+
 ## How it works
 
 1. **Read.** The assistant calls `civil_status` and the read tools to see your model.
 2. **Preview.** A write tool called without `apply` changes nothing. It returns what it would write, plus a `planHash`.
 3. **Apply.** After you agree, the assistant calls it again with `apply: true` and that `planHash`. If your model changed in between, nothing is written. Writes run in the background and the assistant follows them with `job_status`.
-4. **Undo.** Every write is recorded. The matching `…_undo` tool reverses it, even in a later conversation.
+4. **Undo.** Every write is recorded. `undo_run` lists the recorded writes and reverses one with that plugin's own undo, even in a later conversation.
 
 Try asking:
 
@@ -160,9 +180,11 @@ Try asking:
 
 - **Nothing is written without a preview.** A second call must name the previewed plan. One change runs on a model at a time, and the same apply sent twice is carried out once.
 - **Options that change or delete existing model data are marked DESTRUCTIVE** in the tool's inputs. The assistant is told to use them only after you agree to what the preview says.
-- **Every apply can be undone.** Use the matching `…_undo` tool, and undo later work before the model it sits on.
-- **Your MAPI key is never logged or returned.** It is stored only in encrypted form inside your personal token until you revoke it. See the [privacy notice](https://midasiteurope.com/privacy).
-- **You remain the engineer.** The tools run the same checks as the plugins, but an AI assistant can misread a request. Check the preview, check the model, and verify results before relying on them. The outputs do not replace professional engineering judgement.
+- **Every apply can be undone.** Ask for `undo_run`, and undo later work before the model it sits on.
+- **Your MAPI key is never logged or returned.** It is stored only in encrypted form inside your personal token until you revoke it, or until the expiry you can choose when you make the token. See the [privacy notice](https://midasiteurope.com/privacy).
+- **You remain the engineer.** The tools run the same checks as the plugins, but an AI assistant can misread a request. Check the preview, check the model, and verify results before relying on them. The outputs do not replace professional engineering judgement. [VERIFICATION.md](VERIFICATION.md) says which calculations have been checked independently and which have not.
+
+[`SECURITY.md`](SECURITY.md) covers the details: how a call travels, how keys and tokens are kept, what the server enforces, prompt injection, retention, and how to report a vulnerability.
 
 ## About this repository
 
@@ -171,6 +193,9 @@ This repository holds documentation and client configuration only. The server ru
 | File | What it is |
 |---|---|
 | [`TOOLS.md`](TOOLS.md) | The tool list, generated from the live catalogue |
+| [`SECURITY.md`](SECURITY.md) | Security model, data handling and vulnerability reporting |
+| [`VERIFICATION.md`](VERIFICATION.md) | The calculation tools checked against published worked examples and code equations, with the not-yet-verified list |
+| [`verification/verify.test.mjs`](verification/verify.test.mjs) | Those checks as a test you can run against the hosted server: `node --test verification/verify.test.mjs` |
 | [`.vscode/mcp.json`](.vscode/mcp.json) | Ready-made VS Code / GitHub Copilot configuration |
 | [`desktop/`](desktop) | The Claude Desktop extension: manifest and the bridge to the hosted server (no tool code). Packed with `npx @anthropic-ai/mcpb pack desktop` and attached to each release |
 | [`server.json`](server.json) | The server's MCP Registry entry |
