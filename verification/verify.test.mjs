@@ -240,13 +240,13 @@ test("PD 6694-1: Route A movement and K* (cl 9.4.2, 9.4.3), and K_p;t against Ta
   check({ area: "Earth pressure", tool: "pd6694_route_a", source: "K0 = 1 − sin φ' (Jaky)", inputs: "φ'peak 35°", quantity: "K0", expected: 1 - Math.sin(rad(35)), got: o.coefficients.k0, tol: 0.01 });
   const kStar = o.coefficients.k0 + ((20 * dd) / 6) ** 0.6 * o.coefficients.kpT;
   check({ area: "Earth pressure", tool: "pd6694_route_a", source: "PD 6694-1 cl 9.4.3 (C = 20, exponent 0.6)", inputs: "H = 6 m, the tool's K0 and K_p;t", quantity: "K*_d = K0 + (C d'_d/H)^0.6 K_p;t", expected: kStar, got: o.states.EXPMAX.kStar, tol: 0.1, note: "checks the equation; K_p;t itself is the next row" });
-  // Table 7 (vertical face, φ'triax,d = 35°): K_p;t = 5.88, the horizontal component with δ/φ' = 0.5 from BS EN 1997-1 Annex C.
-  // The engine's default is Coulomb with δ = φ'/2 (7.36): higher than the table, so K* and the pressures come out higher.
-  check({ area: "Earth pressure", tool: "pd6694_route_a", source: "PD 6694-1 cl 9.4.1, Table 7", inputs: "φ' 35°, vertical face", quantity: "K_p;t", expected: 5.88, got: o.coefficients.kpT, tol: 26, status: "deviation",
-    note: "the engine uses Coulomb (δ = φ'/2), 25 % above Table 7: K* and the expansion pressures are higher than the code's (conservative); fix pending in the PD 6694 plugin" });
+  // Table 7 (vertical face, φ'triax,d = 35°): K_p;t = 5.88, from BS EN 1997-1 Annex C with δ/φ' = 0.5.
+  // Plugin 0.9.1 takes K_p;t this way by default; up to 0.9.0 it used Coulomb with δ = φ'/2 (7.36).
+  check({ area: "Earth pressure", tool: "pd6694_route_a", source: "PD 6694-1 cl 9.4.1, Table 7", inputs: "φ' 35°, vertical face", quantity: "K_p;t", expected: 5.88, got: o.coefficients.kpT, tol: 0.1,
+    note: "Table 7 is printed to 2 decimals; the engine's Annex C log spiral gives 5.879" });
 });
 
 test("summary", () => {
   assert.ok(ROWS.length > 80, `${ROWS.length} rows`);
-  assert.deepEqual(ROWS.filter((r) => r.status === "deviation").map((r) => r.quantity), ["K_p;t"]);
+  assert.deepEqual(ROWS.filter((r) => r.status === "deviation").map((r) => r.quantity), []);
 });

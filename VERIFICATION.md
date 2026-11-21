@@ -2,12 +2,13 @@
 
 The tools run the same engines as the MIDAS IT Europe plugins, and each plugin has its own test suite. Those suites were written by the same people as the engines, though. This page records checks against sources that did not come from us: a published worked example, the code's own tables and equations, and closed-form mechanics. Each number in the "Expected" column below was worked out from the source, not taken from a plugin.
 
-**Result:** 111 checks on 8 calculation tools. 110 agree within the stated tolerance. One is a known deviation from the code, explained [below](#known-deviation). Last run: 2026-11-21, server 0.8.0, against https://midasiteurope.com/mcp.
+**Result:** 111 checks on 8 calculation tools. All 111 agree within the stated tolerance. Last run: 2026-11-21, server 0.8.0, against https://midasiteurope.com/mcp.
 
-While building this pack we found and fixed two problems:
+While building this pack we found and fixed three problems:
 
 - **The Python-backed tools failed on the hosted server.** CS 455, 2D Culvert, RC Slab and the Eurocode Section Checker run under Pyodide. The hosted functions were missing part of the Pyodide package, so these tools answered with "Cannot find module … pyodide.asm.js". Fixed with server 0.8.0.
 - **One input description could halve a movement.** `pd6694_route_a` takes `expansionLength` as the whole deck, shared between `nAbutmentsSharing` abutments, as the plugin does. Its description said "length to the point of zero movement", which is PD 6694's L_x. Anyone who followed it, with two abutments sharing, would have got half the thermal movement. The description now says what the engine does, and a check below guards it.
+- **PD 6694 K_p;t was higher than Table 7.** For the limit-equilibrium route the engine used Coulomb's passive coefficient with δ = φ'/2: 7.36 at φ' = 35°, where PD 6694-1 Table 7 gives 5.88. K_p;t was 25 % above the table, which made K*_d and the maximum-expansion pressure about 17 % higher than the code's (conservative, but not what PD 6694 says). From PD 6694-1 Integral Abutment 0.9.1, K_p;t comes from the BS EN 1997-1 Annex C log spiral with δ/φ' = 0.5, which is how Table 7 is derived and reproduces it. The Annex A SSI route already did this. Coulomb stays available as an explicit choice.
 
 ## Run it yourself
 
@@ -47,7 +48,7 @@ Tolerances are relative. Most tool outputs are rounded to 0.01, so a value such 
 | Traffic | 57 | `ec_lane_layout`, `cs454_lane_layout`, `point_to_patch_dispersal` | 0.00 % |
 | Concrete | 8 | `slab_capacities_from_bars` | 0.00 % |
 | Sections | 8 | `section_properties` | 0.59 % |
-| Earth pressure | 5 | `pd6694_route_a` | 0.00 % (plus the deviation below) |
+| Earth pressure | 5 | `pd6694_route_a` | 0.02 % |
 
 ### Wind
 
@@ -187,18 +188,14 @@ Tolerances are relative. Most tool outputs are rounded to 0.01, so a value such 
 | d_k = α L_x (T_e,max − T_e,min) | `pd6694_route_a` | PD 6694-1:2011+A1:2020 cl 9.4.2 | L_x = 30 m, ΔT 39 °C, α 12×10⁻⁶ | 0.01404 m | 0.01404 m | 0.00 | 0.01 |  |
 | d_d = ½ d_k (1 + ψ γ_Q) | `pd6694_route_a` | PD 6694-1 cl 9.4.2 | ψ 1, γ_Q 1.5 | 0.01755 m | 0.01755 m | 0.00 | 0.01 |  |
 | K0 | `pd6694_route_a` | K0 = 1 − sin φ' (Jaky) | φ'peak 35° | 0.42642 | 0.42642 | 0.00 | 0.01 |  |
-| K*_d = K0 + (C d'_d/H)^0.6 K_p;t | `pd6694_route_a` | PD 6694-1 cl 9.4.3 (C = 20, exponent 0.6) | H = 6 m, the tool's K0 and K_p;t | 1.766 | 1.766 | 0.00 | 0.1 | checks the equation; K_p;t itself is the next row |
-| K_p;t **(deviation)** | `pd6694_route_a` | PD 6694-1 cl 9.4.1, Table 7 | φ' 35°, vertical face | 5.88 | 7.3567 | +25.11 | 26 | the engine uses Coulomb (δ = φ'/2), 25 % above Table 7: K* and the expansion pressures are higher than the code's (conservative); fix pending in the PD 6694 plugin |
+| K*_d = K0 + (C d'_d/H)^0.6 K_p;t | `pd6694_route_a` | PD 6694-1 cl 9.4.3 (C = 20, exponent 0.6) | H = 6 m, the tool's K0 and K_p;t | 1.4969 | 1.497 | +0.01 | 0.1 | checks the equation; K_p;t itself is the next row |
+| K_p;t | `pd6694_route_a` | PD 6694-1 cl 9.4.1, Table 7 | φ' 35°, vertical face | 5.88 | 5.8788 | −0.02 | 0.1 | Table 7 is printed to 2 decimals; the engine's Annex C log spiral gives 5.879 |
 
 ## Differences explained
 
 - **Rounding in the worked example.** The JRC text rounds as it goes. It takes d_tot = 4.00 m for the 3.9375 m it calculates, takes c_r(10) ≈ 1.0 instead of 1.0067 when it tabulates q_p(10), and rounds v_m from 17.78 to 18 m/s in the construction case. The expected values above use the example's own inputs and equations without those roundings; the notes give the difference from the printed figure (−1.5 %, +1.4 % and −2.6 %).
 - **Wind with traffic.** The JRC example gives the characteristic force on v_b,0 = 26 m/s and then applies ψ0. The tool writes the with-traffic case as F_W* on v_b,0* = 23 m/s, the recommended value of EN 1991-1-4 §8.1(4). The check uses that equation. Scaled back by (26/23)², the tool's 10.66 kN/m becomes 13.62 kN/m, against 13.64 kN/m in the example.
 - **c_fx,0.** The tool does not read Figure 8.3 for you; it uses the §8.3.1 NOTE 2 value 1.3 unless you enter one, and warns when b/d_tot is below 4. The checks enter the example's values (1.55, 1.83, 1.9).
-
-### Known deviation
-
-- **PD 6694 K_p;t.** For φ' = 35° and a vertical face, PD 6694-1 Table 7 gives K_p;t = 5.88. The engine uses Coulomb's passive coefficient with δ = φ'/2, which gives 7.36: 25 % higher. The K*_d equation itself checks exactly with whatever K_p;t it is given. With the higher K_p;t, K*_d and the expansion pressures come out higher than the code's: conservative for the wall, but not what PD 6694 says. A fix that takes K_p;t from Table 7 by default is planned in the PD 6694 plugin. This row asserts the current value, so it will fail when the engine changes and this page must be updated.
 
 ## Not yet verified
 
