@@ -29,13 +29,13 @@ It is listed in the official [MCP Registry](https://registry.modelcontextprotoco
 
 ## Capabilities
 
-91 tools: the engines of 28 plugins, plus model-level tools. See [TOOLS.md](TOOLS.md) for the full list, or [midasiteurope.com/llm](https://midasiteurope.com/llm#tools) for every input. How the calculations have been checked against published worked examples and code equations, and what has not been checked yet, is in [VERIFICATION.md](VERIFICATION.md).
+93 tools: the engines of 28 plugins, plus model-level tools. See [TOOLS.md](TOOLS.md) for the full list, or [midasiteurope.com/llm](https://midasiteurope.com/llm#tools) for every input. How the calculations have been checked against published worked examples and code equations, and what has not been checked yet, is in [VERIFICATION.md](VERIFICATION.md).
 
 | Area | Plugins and tools |
 |---|---|
 | Model and documentation | Model status and any table read; **write any model table** (with undo); run the analysis; save the model; **search and read the MIDAS manuals**; **MIDAS library**: material standards, section shapes, load case types, moving-load codes and standard vehicles, boundary, tendon, temperature and dynamic options (from [midas-civil-python](https://github.com/MIDASIT-Co-Ltd/midas-civil-python)) |
 | Geometry and model set-up | Skew Grillage Geometry Generator, Bridge Reshaper, Node Generator, Section Designer, Beam to Plate, Point to Patch Convertor, Advanced DXF Importer, Auto Structure Groups |
-| Loads and combinations | CS 454 and Eurocode Moving Load Wizards, CS 454 and Eurocode Load Combinations, Wind Load Calculator, Bridge Thermal Loads |
+| Loads and combinations | CS 454 and Eurocode Moving Load Wizards, CS 454 and Eurocode Load Combinations, Wind Load Calculator (with its Excel hand calculation, EN 1991-1-4 or CS 454), Bridge Thermal Loads |
 | Prestressing | **Tendon Designer**: post- and pre-tensioned tendons to EN 1992-1-1 (new layouts, or the model's own tendons read in and checked), composite girders stage by stage, standard precast beam strand patterns with debonding, external tendons, written to the model with their prestress and stages |
 | Construction stages | Construction Stage Wizard, Construction Stage Reporter |
 | Model checking | **Model health check**: about 45 checks of the model data (mesh and beam quality, properties, links, supports, loads, stages, combinations, groups, tendons) and, on an analysed model, reactions against the applied loads, self weight against element volumes, and displacements — red/amber/green by area |

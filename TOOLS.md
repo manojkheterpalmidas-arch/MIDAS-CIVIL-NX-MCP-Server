@@ -1,6 +1,6 @@
 # Tools
 
-91 tools from 28 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
+93 tools from 28 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
 
 - **Calculation**: needs no model and no account.
 - **Read-only**: reads the open model, never changes it.
@@ -24,6 +24,15 @@
 | `civil_run_analysis` | Runs the CIVIL NX analysis of the open model (doc/ANAL), so results can be read with the result tools straight after building or changing a model. | Use to run the analysis of any model. For culverts use culvert_analyse_and_check; for PD 6694 SSI use pd6694_ssi_run. | Changes model | Background when applied |
 | `civil_save_model` | Saves the open CIVIL NX model: over its own file (doc/SAVE), or as a new .mcb file when path is given (doc/SAVEAS; a file of that name is overwritten). | Use to save the open model, or save it under a new path. | Changes model | Background when applied |
 | `undo_run` | Reverses one change a tool made to the model, from the record every apply leaves. | Use to reverse any change a tool made to the model (list the recorded runs, preview, then apply). For wind or PD 6694 loads use ec_wind_remove / pd6694_route_a_remove / pd6694_ssi_remove; to take out loads or supports added by hand use civil_remove_loads. | Changes model | Background when applied |
+
+## Model Report
+
+| Tool | What it does | When to use it | Effect | Runs |
+|---|---|---|---|---|
+| `analysis_diagnose` | Finds why a CIVIL NX analysis stopped or warned ("DOF may be singular", "error norm is infinite / NaN", "displacement abnormal", "has not satisfied convergence tolerance", "beam section temperature… | Use when the analysis stops or warns ("DOF may be singular", "error norm is infinite / NaN", convergence not reached, run-time errors): pass the message text. It names the nodes and stages with free DOFs, the cause and the fix. For a general review of the model use model_health_check. | Read-only | Background |
+| `model_health_check` | One read-only check of the open CIVIL NX model for anything that is likely wrong, grouped into areas with a red/amber/green status each. | Use for "is anything wrong with my model?". This is the full check: the Model Report's fourteen QC checks plus units, tendons, stages, moving loads and results. For a design check of a section use ec2_section_check or cs455_assess. | Read-only | Background |
+| `model_report_images` | Lists the CIVIL NX pictures the Model Report can put in this model's report, with their keys: FE model views (iso, plan, front, side), the applied loads of each static load case, the figures saved in… | Use before model_report_export, to pick the pictures for the report. | Read-only | Background |
+| `model_report_export` | Builds the Model Report plugin's 'Model report' for the open CIVIL NX model — cover, contents, materials, sections (with drawings), supports and springs, load cases, combinations and loads… | Use for the whole-model report document. For construction stages use cs_stage_report; for a design calculation sheet use ec2_export_calc_sheet or cs455_export_calc_sheet; for raw tables use export_result_tables. | Read-only | Background |
 
 ## Auto Structure Groups
 
@@ -128,7 +137,8 @@
 
 | Tool | What it does | When to use it | Effect | Runs |
 |---|---|---|---|---|
-| `ec_wind_bridge` | Calculates wind on a bridge deck with the Wind Load Calculator plugin's own engine (formerly Eurocode Wind Loads). code EN: EN 1991-1-4 §8 — v_b, q_p(z_e), c_sc_d, d_tot, the transverse (x)… | Use for bridge deck wind values (EN 1991-1-4 or CS 454) without touching the model. To write them use ec_wind_apply. | Calculation |  |
+| `ec_wind_bridge` | Calculates wind on a bridge deck with the Wind Load Calculator plugin's own engine (formerly Eurocode Wind Loads). code EN: EN 1991-1-4 §8 — v_b, q_p(z_e), c_sc_d, d_tot, the transverse (x)… | Use for bridge deck wind values (EN 1991-1-4 or CS 454) without touching the model. To write them use ec_wind_apply; for the Excel hand calculation use ec_wind_export_calc_sheet. | Calculation |  |
+| `ec_wind_export_calc_sheet` | Writes the Wind Load Calculator plugin's Excel hand calculation for a bridge deck — the same workbook as the window's Export Excel — and returns a download link. code EN: EN 1991-1-4 §8 sheet… | Use for the wind hand calculation as an Excel workbook (EN 1991-1-4 or CS 454) for a checker. For the numbers alone use ec_wind_bridge; to write the loads use ec_wind_apply. | Calculation |  |
 | `ec_wind_read_deck` | Reads the open model the way the Wind Load Calculator plugin does: finds the deck (or measures the elements / group given), and reports b, d, L, the soffit height, the span axis, whether the deck is… | Use before ec_wind_apply, to find the deck and its dimensions. Read-only. | Read-only |  |
 | `ec_wind_apply` | Calculates wind on the deck (EN 1991-1-4 §8, or CS 454 Appendix D with code: CS454) and writes it with the Wind Load Calculator plugin's adapter: one load case per global direction (EC1W_ for EN… | Use to write code-derived wind load cases on the deck. For a wind load you already know, civil_loads_supports is simpler. | Changes model | Background when applied |
 | `ec_wind_remove` | Removes what the Wind Load Calculator plugin writes: every EC1W_ and C454W_ load case, its load group, and their beam/pressure/nodal loads — whether this tool or the plugin window wrote them. | Use to delete the wind load cases the Wind Load Calculator wrote (EC1W_, C454W_); it is also the undo of ec_wind_apply. For other loads use civil_remove_loads. | Changes model | Background when applied |
@@ -145,14 +155,6 @@
 |---|---|---|---|---|
 | `combination_tree` | Load Combination Contribution Analyzer, step 1. Without name: lists the model's General-tab load combinations (LCOM-GEN) with type (ADD, ENVELOPE, ABS, SRSS), constituent count, whether it is a… | Use to list the model's combinations, or show one's tree of cases and factors. Read-only. To split a result into its load cases use combination_contributions; to write combinations use civil_combinations_quick or the code tools. | Read-only | Background |
 | `combination_contributions` | Load Combination Contribution Analyzer, step 2. Splits one or more load combinations' results at a set of items into the load cases that produced them: for every item, output point (beam I/J and… | Use to find which load cases make up a combination's result at given items. For the forces that act together with an extreme use concurrent_forces. | Read-only | Background |
-
-## Model Report
-
-| Tool | What it does | When to use it | Effect | Runs |
-|---|---|---|---|---|
-| `model_health_check` | One read-only check of the open CIVIL NX model for anything that is likely wrong, grouped into areas with a red/amber/green status each. | Use for "is anything wrong with my model?". This is the full check: the Model Report's fourteen QC checks plus units, tendons, stages, moving loads and results. For a design check of a section use ec2_section_check or cs455_assess. | Read-only | Background |
-| `model_report_images` | Lists the CIVIL NX pictures the Model Report can put in this model's report, with their keys: FE model views (iso, plan, front, side), the applied loads of each static load case, the figures saved in… | Use before model_report_export, to pick the pictures for the report. | Read-only | Background |
-| `model_report_export` | Builds the Model Report plugin's 'Model report' for the open CIVIL NX model — cover, contents, materials, sections (with drawings), supports and springs, load cases, combinations and loads… | Use for the whole-model report document. For construction stages use cs_stage_report; for a design calculation sheet use ec2_export_calc_sheet or cs455_export_calc_sheet; for raw tables use export_result_tables. | Read-only | Background |
 
 ## Model to IFC
 
