@@ -2,6 +2,8 @@
 
 93 tools from 28 MIDAS IT Europe plugins. Generated from the live catalogue; the full descriptions and every input are on [midasiteurope.com/llm](https://midasiteurope.com/llm#tools), and your assistant reads them from the server itself.
 
+Lists captured before server 0.8.0 show 108 tools. Since 0.8.0, one `undo_run` replaces the 17 per-plugin undo tools, and `model_health_check` covers `model_qc_check`. Those 18 names are no longer listed but still run when called by name, so there are 111 callable names in all.
+
 - **Calculation**: needs no model and no account.
 - **Read-only**: reads the open model, never changes it.
 - **Changes model**: previews first, applies only after you agree, and has a matching undo.

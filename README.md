@@ -31,6 +31,8 @@ It is listed in the official [MCP Registry](https://registry.modelcontextprotoco
 
 93 tools: the engines of 28 plugins, plus model-level tools. See [TOOLS.md](TOOLS.md) for the full list, or [midasiteurope.com/llm](https://midasiteurope.com/llm#tools) for every input. How the calculations have been checked against published worked examples and code equations, and what has not been checked yet, is in [VERIFICATION.md](VERIFICATION.md).
 
+> **About the tool count.** The server lists **93 tools** (`tools/list` on `/mcp`). Some directories still show **108**: they captured the list before server 0.8.0, which replaced the 17 per-plugin undo tools with one `undo_run` and folded `model_qc_check` into `model_health_check`. Those 18 older names are no longer listed, but they still run when called by name, so existing prompts keep working. 93 listed + 18 hidden = 111 callable names. The listed count is the one to quote.
+
 | Area | Plugins and tools |
 |---|---|
 | Model and documentation | Model status and any table read; **write any model table** (with undo); run the analysis; save the model; **search and read the MIDAS manuals**; **MIDAS library**: material standards, section shapes, load case types, moving-load codes and standard vehicles, boundary, tendon, temperature and dynamic options (from [midas-civil-python](https://github.com/MIDASIT-Co-Ltd/midas-civil-python)) |
