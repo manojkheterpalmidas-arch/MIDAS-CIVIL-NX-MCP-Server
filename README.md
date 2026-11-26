@@ -27,6 +27,38 @@ This is [lazy mode](#lazy-mode-fewer-tokens-in-every-chat): your assistant start
 
 It is listed in the official [MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=com.midasiteurope) as `com.midasiteurope/civil-nx`.
 
+## Quick start: no account or token needed to connect
+
+The server answers `initialize` and `tools/list` without any token. You can connect, see every tool, run the calculation tools and search the MIDAS manuals straight away. A [personal token](#get-your-personal-token) is only needed for the tools that read or change a CIVIL NX model.
+
+Any client that takes a remote (streamable HTTP) server:
+
+```json
+{
+  "mcpServers": {
+    "civil-nx": {
+      "type": "http",
+      "url": "https://midasiteurope.com/mcp"
+    }
+  }
+}
+```
+
+Clients that only start local (stdio) servers can reach the same address through [`mcp-remote`](https://www.npmjs.com/package/mcp-remote), with no token and nothing else to install:
+
+```json
+{
+  "mcpServers": {
+    "civil-nx": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://midasiteurope.com/mcp"]
+    }
+  }
+}
+```
+
+To work on your model, add your token as a header, `Authorization: Bearer cnx_…`, or use your connector URL instead of the plain address. There is no package to install and no script in this repository to run: the code in [`desktop/`](desktop) is only the Claude Desktop extension, which Claude Desktop runs from the `.mcpb` file.
+
 ## Capabilities
 
 93 tools: the engines of 28 plugins, plus model-level tools. See [TOOLS.md](TOOLS.md) for the full list, or [midasiteurope.com/llm](https://midasiteurope.com/llm#tools) for every input. How the calculations have been checked against published worked examples and code equations, and what has not been checked yet, is in [VERIFICATION.md](VERIFICATION.md).
@@ -47,7 +79,7 @@ It is listed in the official [MCP Registry](https://registry.modelcontextprotoco
 ## Requirements
 
 - **MIDAS CIVIL NX**, with the model open and its MAPI key (CIVIL NX: *Apps > API Settings*).
-- **A free MIDAS IT Europe account** at [midasiteurope.com](https://midasiteurope.com/sign-up?next=%2Fllm). You need it for any tool that reads or changes a model. The calculation tools work without one.
+- **A free MIDAS IT Europe account** at [midasiteurope.com](https://midasiteurope.com/sign-up?next=%2Fllm), only for the tools that read or change a model. Connecting, listing the tools, the calculation tools and the manual search work without an account or token.
 - **An MCP client:** claude.ai or Claude Desktop, Claude Code, VS Code with GitHub Copilot, Microsoft Copilot Studio, ChatGPT, or any client that supports remote (streamable HTTP) MCP servers.
 
 ## Get your personal token
